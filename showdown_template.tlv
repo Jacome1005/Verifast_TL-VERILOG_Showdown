@@ -52,18 +52,128 @@
 // and "_" only)
 \TLV team_YOUR_GITHUB_ID(/_top)
    /ship[*]
+      $xx_acc[7:0] =
+                   /*#ship == 0 ?
+                      *cyc_cnt == 1 ? ($xx_pp >  8'd40)  ? (8'd2)  :
+                                      ($xx_pp < -8'd40)  ? (-8'd2) :
+                                      8'd0 :
+                      8'd0 :*/
+                   #ship == 0 ?
+                      ((8'd24 <= $xx_p && $xx_p <=  8'd60) && *cyc_cnt <= 29) ? -8'd2 :
+                      ((-8'd60 <= $xx_p && $xx_p <=  -8'd24) && *cyc_cnt <= 29) ? 8'd2 :
+                      8'd0 :
+                   #ship == 1 ?
+                      *cyc_cnt == 1 ? (8'd3) :
+                      *cyc_cnt == 2 ? (8'd3) :
+                      *cyc_cnt == 3 ? (8'd1) :
+                      *cyc_cnt == 4 ? (-8'd3) :
+                      *cyc_cnt == 5 ? (-8'd2) :
+                      *cyc_cnt == 7 ? (8'd1) :
+                      *cyc_cnt == 8 ? (-8'd1) :
+                      *cyc_cnt == 9 ? (8'd1) :
+                      *cyc_cnt == 10 ? (8'd3) :
+                      //escribir código nave 1
+                      8'd0 :
+                   #ship == 2 ?
+                      *cyc_cnt == 1 ? (8'd3) :
+                      *cyc_cnt == 2 ? (8'd3) :
+                      *cyc_cnt == 3 ? (8'd1) :
+                      *cyc_cnt == 7 ? (-8'd1) :
+                      *cyc_cnt == 8 ? (-8'd2) :
+                      *cyc_cnt == 9 ? (-8'd2) :
+                      *cyc_cnt == 10 ? (-8'd1) :
+                      *cyc_cnt == 11 ? (-8'd1) :
+                      *cyc_cnt == 13 ? (8'd1) :
+                      *cyc_cnt == 14 ? (8'd1) :
+                      //escribir código nave 2
+                      8'd0 :
+                   8'd0;
       
-      //-----------------------\
-      //  Your Code Goes Here  |
-      //-----------------------/
+      $yy_acc[7:0] =
+                   #ship == 0 ?
+                      ((8'd24 <= $yy_p && $yy_p <=  8'd60) && *cyc_cnt <= 29) ? -8'd2 :
+                      ((-8'd60 <= $yy_p && $yy_p <=  -8'd24) && *cyc_cnt <= 29) ? 8'd2 :
+                      8'd0 :
+                   #ship == 1 ?
+                      *cyc_cnt == 1 ? (8'd3) :
+                      *cyc_cnt == 4 ? (-8'd3) :
+                      //escribir código nave 1
+                      8'd0 :
+                   #ship == 2 ?
+                      *cyc_cnt == 1 ? (8'd3) :
+                      *cyc_cnt == 14 ? (-8'd3) :
+                      //escribir código nave 2
+                      8'd0 :
+                   8'd0;
       
-      // E.g.:
-      //$xx_acc[3:0] = 4'b0;
-      //$yy_acc[3:0] = 4'b0;
-      //$attempt_fire = 1'b0;
-      //$fire_dir = 1'b0;
-      //$attempt_cloak = 1'b0;
-      //$attempt_shield = 1'b0;
+      $fire_dir[1:0] =
+                     #ship == 0 ?
+                        *cyc_cnt == 2 ? (2'd0) :
+                        *cyc_cnt == 3 ? (2'd3) :
+                        *cyc_cnt == 14 ? (2'd1) :
+                        *cyc_cnt == 15 ? (2'd2) :
+                        //en arreglo -> jacobo
+                        //(*cyc_cnt >= 16 && ($enemy_xx_p <= $xx_p + 8'd5 && $enemy_xx_p >= $xx_p - 8'd5 && $enemy_destroyed == 1'b0) && ($enemy_yy_p >= $yy_p && $enemy_yy_p <= 8'd60 )) ? 2'd0 :
+                        2'd0 :
+                     #ship == 1 ?
+                        //escribir código nave 1
+                        2'd0 :
+                     #ship == 2 ?
+                        //escribir código nave 2
+                        2'd0 :
+                     2'd0;
+      
+      $attempt_fire =
+                     #ship == 0 ?
+                        *cyc_cnt == 2 ? (1'b1) :
+                        *cyc_cnt == 3 ? (1'b1) :
+                        *cyc_cnt == 14 ? (1'b1) :
+                        *cyc_cnt == 15 ? (1'b1) :
+                        (*cyc_cnt >= 16 && >>1$fire_dir != $fire_dir) ? 1'b1 :
+                        1'b0 :
+                     #ship == 1 ?
+                        //escribir código nave 1
+                        1'b0 :
+                     #ship == 2 ?
+                        //escribir código nave 2
+                        1'b0 :
+                     1'b0;
+      
+      $attempt_shield = #ship == 0 ?
+                         (*cyc_cnt == 30) ? 1'b1 :
+                         1'b0 :
+                        #ship == 1 ?
+                         //escribir código nave 1
+                         1'b0 :
+                        #ship == 2 ?
+                         //escribir código nave 2
+                         1'b0 :
+                        1'b0;
+      
+      $attempt_cloak = #ship == 0 ?
+                         (*cyc_cnt == 30) ? 1'b1 :
+                         1'b0 :
+                       #ship == 1 ?
+                         //escribir código nave 1
+                         1'b0 :
+                       #ship == 2 ?
+                         //escribir código nave 2
+                         1'b0 :
+                         //todavia no se que hace la línea de abajo
+                         (*cyc_cnt >= 4);
+
+      // defaults for everything else
+      /*
+      $xx_acc[3:0]     = 4'b0000;    // no x-accel by default  
+      $yy_acc[3:0]     = 4'b0000;    // no y-accel by default  
+      $attempt_fire    = 1'b0;       // never fire  
+      $fire_dir[1:0]   = 2'b00;      // arbitrary default direction  
+      $attempt_cloak   = 1'b0;       // never cloak  
+      $attempt_shield  = 1'b0;       // never shield  
+      */
+
+
+
 
 
 // [Optional]
@@ -98,7 +208,7 @@
    // Your team as the first. Provide:
    //   - your GitHub ID, (as in your \TLV team_* macro, above)
    //   - your team name--anything you like (that isn't crude or disrespectful)
-   m5_team(YOUR_GITHUB_ID, Verifast team)
+   m5_team(YOUR_GITHUB_ID, Verifast)
    
    // Choose your opponent.
    // Note that inactive teams must be commented with "///", not "//", to prevent M5 macro evaluation.
