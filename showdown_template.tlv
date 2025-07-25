@@ -75,8 +75,9 @@
                       //escribir código nave 1
                       8'd0 :
                    #ship == 2 ?
-                  (*cyc_cnt[2] == 1'b0) ? 8'd2 : -8'd2 :
-                   8'd0:
+                     (*cyc_cnt[2] == 1'b0) ? 8'd2 :
+                     -8'd2 :
+                   8'd0 ;
       
       $yy_acc[7:0] =
                    #ship == 0 ?
@@ -89,9 +90,9 @@
                       //escribir código nave 1
                       8'd0 :
                    #ship == 2 ?
-                       (*cyc_cnt[1:0] == 2'd0 || *cyc_cnt[1:0] == 2'd1) ? 8'd2 : -8'd2 :
-
-                      8'd0 :
+                      (*cyc_cnt[1:0] == 2'd0 || *cyc_cnt[1:0] == 2'd1) ? 8'd2 :
+                      -8'd2 :
+                   8'd0 ;
 
       
       $fire_dir[1:0] =
@@ -111,12 +112,13 @@
                         //escribir código nave 1
                         2'd0 :
                      #ship == 2 ?
-                     (/team0/prev_enemy_ship[0]$yy_p <= $yy_p + 8'd5 && /team0/prev_enemy_ship[0]$yy_p >= $yy_p - 8'd5 && ~/team0/prev_enemy_ship[0]$destroyed) ?
-                     ((/team0/prev_enemy_ship[0]$xx_p > $xx_p) ? 2'd0 : 2'd2) :
-                     (/team0/prev_enemy_ship[0]$xx_p <= $xx_p + 8'd5 && /team0/prev_enemy_ship[0]$xx_p >= $xx_p - 8'd5 && ~/team0/prev_enemy_ship[0]$destroyed) ?
-                     ((/team0/prev_enemy_ship[0]$yy_p > $yy_p) ? 2'd3 : 2'd1) :
-                    2'd0 :
-              
+                        (/team0/prev_enemy_ship[0]$yy_p <= $yy_p + 8'd5 && /team0/prev_enemy_ship[0]$yy_p >= $yy_p - 8'd5 && ~/team0/prev_enemy_ship[0]$destroyed) ?
+                        ((/team0/prev_enemy_ship[0]$xx_p > $xx_p) ? 2'd0 : 2'd2) :
+                        (/team0/prev_enemy_ship[0]$xx_p <= $xx_p + 8'd5 && /team0/prev_enemy_ship[0]$xx_p >= $xx_p - 8'd5 && ~/team0/prev_enemy_ship[0]$destroyed) ?
+                        ((/team0/prev_enemy_ship[0]$yy_p > $yy_p) ? 2'd3 : 2'd1) :
+                        2'd0 :
+                    2'd0 ;
+      
       
       $attempt_fire =
                      #ship == 0 ?
@@ -131,35 +133,35 @@
                         1'b0 :
                      #ship == 2 ?
                         ((>>1$fire_dir != $fire_dir) && ~/team0/prev_enemy_ship[0]$destroyed) ? 1'b1 :
-
-                     1'b0:
+                        1'b0 :
+                     1'b0 ;
       
       $attempt_shield = #ship == 0 ?
-                         (*cyc_cnt == 30) ? 1'b1 :
-                         1'b0 :
+                          (*cyc_cnt == 30) ? 1'b1 :
+                          1'b0 :
                         #ship == 1 ?
-                         //escribir código nave 1
-                         1'b0 :
+                          //escribir código nave 1
+                          1'b0 :
                         #ship == 2 ?
-                      
                           ((/team0/prev_enemy_ship[0]$xx_p - $xx_p)**2 + (/team0/prev_enemy_ship[0]$yy_p - $yy_p)**2 < 8'd36 && ~/team0/prev_enemy_ship[0]$destroyed) ? 1'b1 :
-                         1'b0 :
+                          1'b0 :
+                        1'b0 ;
    
       
       $attempt_cloak = #ship == 0 ?
-                         (*cyc_cnt == 30) ? 1'b1 :
-                         1'b0 :
+                          (*cyc_cnt == 30) ? 1'b1 :
+                          1'b0 :
                        #ship == 1 ?
-                         //escribir código nave 1
-                         1'b0 :
+                          //escribir código nave 1
+                          1'b0 :
                        #ship == 2 ?
-                         //escribir código nave 2
-                         1'b0 :
-                          ( ((/team0/prev_enemy_ship[0]$xx_p - $xx_p)**2 + (/team0/prev_enemy_ship[0]$yy_p - $yy_p)**2 < 8'd100 && ~/team0/prev_enemy_ship[0]$destroyed ? 1 : 0) +
-                           ((/team0/prev_enemy_ship[1]$xx_p - $xx_p)**2 + (/team0/prev_enemy_ship[1]$yy_p - $yy_p)**2 < 8'd100 && ~/team0/prev_enemy_ship[1]$destroyed ? 1 : 0)
-                               ) >= 2 ? 1'b1 : 1'b0 :
-                         //todavia no se que hace la línea de abajo
-                         (*cyc_cnt >= 4);
+                          //escribir código nave 2
+                           ( ((/team0/prev_enemy_ship[0]$xx_p - $xx_p)**2 + (/team0/prev_enemy_ship[0]$yy_p - $yy_p)**2 < 8'd100 && ~/team0/prev_enemy_ship[0]$destroyed ? 1 : 0) +
+                            ((/team0/prev_enemy_ship[1]$xx_p - $xx_p)**2 + (/team0/prev_enemy_ship[1]$yy_p - $yy_p)**2 < 8'd100 && ~/team0/prev_enemy_ship[1]$destroyed ? 1 : 0)
+                                ) >= 2 ? 1'b1 :
+                          1'b0 :
+                       //todavia no se que hace la línea de abajo
+                       (*cyc_cnt >= 4);
 
       // defaults for everything else
       /*
