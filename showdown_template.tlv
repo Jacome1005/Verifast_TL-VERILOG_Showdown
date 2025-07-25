@@ -113,7 +113,11 @@
                         *cyc_cnt == 14 ? (2'd1) :
                         *cyc_cnt == 15 ? (2'd2) :
                         //en arreglo -> jacobo
-                        //(*cyc_cnt >= 16 && ($enemy_xx_p <= $xx_p + 8'd5 && $enemy_xx_p >= $xx_p - 8'd5 && $enemy_destroyed == 1'b0) && ($enemy_yy_p >= $yy_p && $enemy_yy_p <= 8'd60 )) ? 2'd0 :
+                        //(*cyc_cnt >= 16 && (*enemy_ship[*]$xx_p <= $xx_p + 8'd5 && *enemy_ship[*]$xx_p >= $xx_p - 8'd5 /*&& $enemy_destroyed == 1'b0*/) && (*enemy_ship[*]$yy_p >= $yy_p && *enemy_ship[*]$yy_p <= 8'd60 )) ? 2'd0 :
+                        (*cyc_cnt >= 16 && (/team0/prev_enemy_ship[0]$xx_p <= $xx_p + 8'd5 && /team0/prev_enemy_ship[0]$xx_p >= $xx_p - 8'd5 && ~/team0/prev_enemy_ship[0]$destroyed) && (/team0/prev_enemy_ship[0]$yy_p > $yy_p && /team0/prev_enemy_ship[0]$yy_p <= 8'd60)) ? 2'd3 :
+                        (*cyc_cnt >= 16 && (/team0/prev_enemy_ship[0]$xx_p <= $xx_p + 8'd5 && /team0/prev_enemy_ship[0]$xx_p >= $xx_p - 8'd5 && ~/team0/prev_enemy_ship[0]$destroyed) && (/team0/prev_enemy_ship[0]$yy_p < $yy_p && /team0/prev_enemy_ship[0]$yy_p >= -8'd60)) ? 2'd1 :
+                        (*cyc_cnt >= 16 && (/team0/prev_enemy_ship[0]$yy_p <= $yy_p + 8'd5 && /team0/prev_enemy_ship[0]$yy_p >= $yy_p - 8'd5 && ~/team0/prev_enemy_ship[0]$destroyed) && (/team0/prev_enemy_ship[0]$xx_p > $xx_p && /team0/prev_enemy_ship[0]$xx_p <= 8'd60)) ? 2'd0 :
+                        (*cyc_cnt >= 16 && (/team0/prev_enemy_ship[0]$yy_p <= $yy_p + 8'd5 && /team0/prev_enemy_ship[0]$yy_p >= $yy_p - 8'd5 && ~/team0/prev_enemy_ship[0]$destroyed) && (/team0/prev_enemy_ship[0]$xx_p < $xx_p && /team0/prev_enemy_ship[0]$xx_p >= -8'd60)) ? 2'd2 :
                         2'd0 :
                      #ship == 1 ?
                         //escribir código nave 1
