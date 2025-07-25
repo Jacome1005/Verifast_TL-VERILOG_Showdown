@@ -50,7 +50,7 @@
 // Modify this TL-Verilog macro to implement your control circuitry.
 // Replace YOUR_GITHUB_ID with your GitHub ID, excluding non-word characters (alphabetic, numeric,
 // and "_" only)
-\TLV team_YOUR_GITHUB_ID(/_top)
+\TLV team_Jacome1005(/_top)
    /ship[*]
       $xx_acc[7:0] =
                    /*#ship == 0 ?
@@ -179,7 +179,7 @@
 
 // [Optional]
 // Visualization of your logic for each ship.
-\TLV team_YOUR_GITHUB_ID_viz(/_top, _team_num)
+\TLV team_Jacome1005_viz(/_top, _team_num)
    m5+io_viz(/_top, _team_num)   /// Visualization of your IOs.
    \viz_js
       m5_DefaultTeamVizBoxAndWhere()
@@ -209,7 +209,7 @@
    // Your team as the first. Provide:
    //   - your GitHub ID, (as in your \TLV team_* macro, above)
    //   - your team name--anything you like (that isn't crude or disrespectful)
-   m5_team(YOUR_GITHUB_ID, Verifast)
+   m5_team(Jacome1005, Verifast)
    
    // Choose your opponent.
    // Note that inactive teams must be commented with "///", not "//", to prevent M5 macro evaluation.
