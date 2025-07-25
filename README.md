@@ -9,9 +9,9 @@
 
 # Overview
 
-This repository is the work of team members listed above for competing in the 1st Annual Makerchip ASIC Design Showdown. For Showdown details, see https://www.redwoodeda.com/showdown-info. More information on the `#showdown` channel in the [TL-Verilog User's Slack workspace](https://join.slack.com/t/tl-verilog-users/shared_invite/zt-4fatipnr-dmDgkbzrCe0ZRLOOVm89gA) .
+This repository contains the work of the team members listed above, created for participation in the 1st Annual Makerchip ASIC Design Showdown. For Showdown details, see https://www.redwoodeda.com/showdown-info. Additional information and discussion can be found in the `#showdown` channel of the [TL-Verilog User's Slack workspace](https://join.slack.com/t/tl-verilog-users/shared_invite/zt-4fatipnr-dmDgkbzrCe0ZRLOOVm89gA) .
 
-This coding contest consist on a fleet of three ships battling another. Where as each team must design the control circuitry for the autonomous spacecraft to outmaneuver and outwit opponents.
+This coding contest revolves around a strategic battle between fleets of three autonomous ships. Each team is tasked with designing the control circuitry that enables their spacecraft to outmaneuver and outsmart opposing fleets through intelligent automation and tactical programming.
 
 ![Watch video](screencapture.gif)
 
