@@ -165,6 +165,7 @@
                            /_top/enemy_ship[2]$xx_p >= $xx_p - 8'd5) ?
                               ((/_top/enemy_ship[2]$yy_p > $yy_p) ? 2'd3 : 2'd1) :
                          2'd0 :
+                      2'd0 ;
 
 
       
@@ -187,9 +188,11 @@
                            (! /_top/enemy_ship[0]$destroyed || ! /_top/enemy_ship[1]$destroyed || ! /_top/enemy_ship[2]$destroyed)
                          ) ? 1'b1 :
                         1'b0 :
+                     1'b0 ;
       
       $attempt_shield = #ship == 0 ?
                           (*cyc_cnt == 30) ? 1'b1 :
+                          (*cyc_cnt >= 4 && >>1$attempt_shield == 1'b0) ? 1'b1 :
                           1'b0 :
                         #ship == 1 ?
                           *cyc_cnt >= 5 && (/_top/enemy_ship[0]$yy_p == $yy_p || /_top/enemy_ship[0]$xx_p == $xx_p) ? (1'b1):
@@ -202,7 +205,8 @@
                            ((/_top/enemy_ship[0]$xx_p - $xx_p)**2 + (/_top/enemy_ship[0]$yy_p - $yy_p)**2 < 8'd36)) || (! /_top/enemy_ship[1]$destroyed &&
                            ((/_top/enemy_ship[1]$xx_p - $xx_p)**2 + (/_top/enemy_ship[1]$yy_p - $yy_p)**2 < 8'd36)) || (! /_top/enemy_ship[2]$destroyed &&
                            ((/_top/enemy_ship[2]$xx_p - $xx_p)**2 + (/_top/enemy_ship[2]$yy_p - $yy_p)**2 < 8'd36))) ? 1'b1 :
-                        1'b0 :
+                          1'b0 :
+                        1'b0 ;
 
       $attempt_cloak = #ship == 0 ?
                           (*cyc_cnt == 30) ? 1'b1 :
@@ -218,7 +222,8 @@
                             ((\$signed(/_top/enemy_ship[1]$xx_p) - \$signed($xx_p))**2 + (\$signed(/_top/enemy_ship[1]$yy_p) - \$signed($yy_p))**2 < 8'd100)) ? 1 : 0) +
                            ((! /_top/enemy_ship[2]$destroyed &&
                             ((\$signed(/_top/enemy_ship[2]$xx_p) - \$signed($xx_p))**2 + (\$signed(/_top/enemy_ship[2]$yy_p) - \$signed($yy_p))**2 < 8'd100)) ? 1 : 0)) >= 2 ? 1'b1 : 
-                        1'b0 :
+                           1'b0 :
+                       1'b0 ;
 
       // defaults for everything else
       /*
