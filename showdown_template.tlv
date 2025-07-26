@@ -64,16 +64,9 @@
                       ((-8'd60 <= $xx_p && $xx_p <=  -8'd24) && *cyc_cnt <= 29) ? 8'd2 :
                       8'd0 :
                    #ship == 1 ?
-                      *cyc_cnt == 1 ? (8'd3) :
-                      *cyc_cnt == 2 ? (8'd3) :
-                      *cyc_cnt == 3 ? (8'd1) :
-                      *cyc_cnt == 4 ? (-8'd3) :
-                      *cyc_cnt == 5 ? (-8'd2) :
-                      *cyc_cnt == 7 ? (8'd1) :
-                      *cyc_cnt == 8 ? (-8'd1) :
-                      *cyc_cnt == 9 ? (8'd1) :
-                      *cyc_cnt == 10 ? (8'd3) :
-                      //escribir código nave 1
+                      *cyc_cnt >= 2 && (/_top/enemy_ship[0]$xx_p == $xx_p && ~ /_top/enemy_ship[0]$destroyed) ? (8'd15):
+                      *cyc_cnt >= 2 && (/_top/enemy_ship[1]$xx_p == $xx_p && ~ /_top/enemy_ship[1]$destroyed) ? (8'd15):
+                      *cyc_cnt >= 2 && (/_top/enemy_ship[2]$xx_p == $xx_p && ~ /_top/enemy_ship[2]$destroyed) ? (8'd15):
                       8'd0 :
                    #ship == 2 ?
                      (*cyc_cnt[2] == 1'b0) ? 8'd2 :
@@ -86,9 +79,9 @@
                       ((-8'd60 <= $yy_p && $yy_p <=  -8'd24) && *cyc_cnt <= 29) ? 8'd2 :
                       8'd0 :
                    #ship == 1 ?
-                      *cyc_cnt == 1 ? (8'd3) :
-                      *cyc_cnt == 4 ? (-8'd3) :
-                      //escribir código nave 1
+                      *cyc_cnt >= 2 && (/_top/enemy_ship[0]$yy_p == $yy_p && ~ /_top/enemy_ship[0]$destroyed) ? (8'd15):
+                      *cyc_cnt >= 2 && (/_top/enemy_ship[1]$yy_p == $yy_p && ~ /_top/enemy_ship[1]$destroyed) ? (8'd15):
+                      *cyc_cnt >= 2 && (/_top/enemy_ship[2]$yy_p == $yy_p && ~ /_top/enemy_ship[2]$destroyed) ? (8'd15):
                       8'd0 :
                    #ship == 2 ?
                       (*cyc_cnt[1:0] == 2'd0 || *cyc_cnt[1:0] == 2'd1) ? 8'd2 :
@@ -119,7 +112,9 @@
                         *cyc_cnt == 24 ? (2'd3) :
                         2'd0 :
                      #ship == 1 ?
-                        //escribir código nave 1
+                        *cyc_cnt >= 2 && (~ /_top/enemy_ship[1]$destroyed) ? (2'd0):
+                        *cyc_cnt >= 2 && (/_top/enemy_ship[1]$destroyed && ~ /_top/enemy_ship[2]$destroyed) ? (2'd3):
+                        *cyc_cnt >= 2 && (/_top/enemy_ship[1]$destroyed && /_top/enemy_ship[2]$destroyed) ? (2'd0):
                         2'd0 :
                      #ship == 2 ?
                         (/_top/enemy_ship[0]$yy_p <= $yy_p + 8'd5 && /_top/enemy_ship[0]$yy_p >= $yy_p - 8'd5 && ~ /_top/enemy_ship[0]$destroyed) ?
@@ -139,7 +134,7 @@
                         (*cyc_cnt >= 16 && (>>1$fire_dir != $fire_dir)) ? 1'b1 :
                         1'b0 :
                      #ship == 1 ?
-                        //escribir código nave 1
+                        (*cyc_cnt >= 5) ? 1'b1 :
                         1'b0 :
                      #ship == 2 ?
                         ((>>1$fire_dir != $fire_dir) && ~ /_top/enemy_ship[0]$destroyed) ? 1'b1 :
@@ -150,7 +145,9 @@
                           (*cyc_cnt == 30) ? 1'b1 :
                           1'b0 :
                         #ship == 1 ?
-                          //escribir código nave 1
+                          *cyc_cnt >= 5 && (/_top/enemy_ship[0]$yy_p == $yy_p || /_top/enemy_ship[0]$xx_p == $xx_p) ? (1'b1):
+                          *cyc_cnt >= 5 && (/_top/enemy_ship[1]$yy_p == $yy_p || /_top/enemy_ship[1]$xx_p == $xx_p) ? (1'b1):
+                          *cyc_cnt >= 5 && (/_top/enemy_ship[2]$yy_p == $yy_p || /_top/enemy_ship[2]$xx_p == $xx_p) ? (1'b1):
                           1'b0 :
                         #ship == 2 ?
                           ((/_top/enemy_ship[0]$xx_p - $xx_p)**2 + (/_top/enemy_ship[0]$yy_p - $yy_p)**2 < 8'd36 && ~ /_top/enemy_ship[0]$destroyed) ? 1'b1 :
@@ -162,7 +159,7 @@
                           (*cyc_cnt == 30) ? 1'b1 :
                           1'b0 :
                        #ship == 1 ?
-                          //escribir código nave 1
+                          *cyc_cnt <= 5 ? (1'b1):
                           1'b0 :
                        #ship == 2 ?
                           //escribir código nave 2
