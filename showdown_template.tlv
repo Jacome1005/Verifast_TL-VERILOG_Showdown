@@ -53,7 +53,7 @@
 \TLV team_Jacome1005(/_top)
    /ship[*]
       
-      $xx_acc[7:0] =
+      $xx_acc[3:0] =
                    /*#ship == 0 ?
                       *cyc_cnt == 1 ? ($xx_pp >  8'd40)  ? (8'd2)  :
                                       ($xx_pp < -8'd40)  ? (-8'd2) :
@@ -73,7 +73,7 @@
                      -4'sd2 :
                      4'sd0 ;
       
-      $yy_acc[7:0] =
+      $yy_acc[3:0] =
                    #ship == 0 ?
                       ((8'd24 <= $yy_p && $yy_p <=  8'd60) && *cyc_cnt <= 29) ? -8'd2 :
                       ((-8'd60 <= $yy_p && $yy_p <=  -8'd24) && *cyc_cnt <= 29) ? 8'd2 :
@@ -199,11 +199,12 @@
                        #ship == 2 ?
                           (
                            ((! /_top/enemy_ship[0]$destroyed &&
-                            ((\$signed(/_top/enemy_ship[0]$xx_p) - \$signed($xx_p))**2 + (\$signed(/_top/enemy_ship[0]$yy_p) - \$signed($yy_p))**2 < 8'd100)) ? 1 : 0) +
+                           ((/_top/enemy_ship[0]$xx_p - $xx_p)*2 + (/_top/enemy_ship[0]$yy_p - $yy_p)*2 < 8'd100)) ? 1 : 0) +
                            ((! /_top/enemy_ship[1]$destroyed &&
-                            ((\$signed(/_top/enemy_ship[1]$xx_p) - \$signed($xx_p))**2 + (\$signed(/_top/enemy_ship[1]$yy_p) - \$signed($yy_p))**2 < 8'd100)) ? 1 : 0) +
+                           ((/_top/enemy_ship[1]$xx_p - $xx_p)*2 + (/_top/enemy_ship[1]$yy_p - $yy_p)*2 < 8'd100)) ? 1 : 0) +
                            ((! /_top/enemy_ship[2]$destroyed &&
-                            ((\$signed(/_top/enemy_ship[2]$xx_p) - \$signed($xx_p))**2 + (\$signed(/_top/enemy_ship[2]$yy_p) - \$signed($yy_p))**2 < 8'd100)) ? 1 : 0)) >= 2 ? 1'b1 : 
+                           ((/_top/enemy_ship[2]$xx_p - $xx_p)*2 + (/_top/enemy_ship[2]$yy_p - $yy_p)*2 < 8'd100)) ? 1 : 0)
+                        ) >= 2 ? 1'b1 :
                         1'b0 :
 
       // defaults for everything else
