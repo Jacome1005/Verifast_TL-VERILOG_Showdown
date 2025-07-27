@@ -78,9 +78,10 @@
                                       4'sd0 :
                       4'sd0 :*/
                    #ship == 1 ?
-                      *cyc_cnt >= 2 && (/_top/enemy_ship[0]$xx_p == $xx_p && ~ /_top/enemy_ship[0]$destroyed) ? (4'sd15):
-                      *cyc_cnt >= 2 && (/_top/enemy_ship[1]$xx_p == $xx_p && ~ /_top/enemy_ship[1]$destroyed) ? (4'sd15):
-                      *cyc_cnt >= 2 && (/_top/enemy_ship[2]$xx_p == $xx_p && ~ /_top/enemy_ship[2]$destroyed) ? (4'sd15):
+                      *cyc_cnt == 50 ? 4'sd4:    //2 izq a der
+                      *cyc_cnt == 70 ? -4'sd4:   //2 izq a der
+                      *cyc_cnt == 200 ? -4'sd4:   //4 der a izq
+                      *cyc_cnt == 220 ? 4'sd4:  //4 der a izq
                       4'sd0 :
                    #ship == 2 ?
                       ((8'sd24 <= $xx_p && $xx_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd2 :
@@ -121,9 +122,12 @@
                          ) :
                       4'sd0 :
                    #ship == 1 ?
-                      *cyc_cnt >= 2 && (/_top/enemy_ship[0]$yy_p == $yy_p && ~ /_top/enemy_ship[0]$destroyed) ? (4'sd15):
-                      *cyc_cnt >= 2 && (/_top/enemy_ship[1]$yy_p == $yy_p && ~ /_top/enemy_ship[1]$destroyed) ? (4'sd15):
-                      *cyc_cnt >= 2 && (/_top/enemy_ship[2]$yy_p == $yy_p && ~ /_top/enemy_ship[2]$destroyed) ? (4'sd15):
+                      *cyc_cnt == 15 ? -4'sd4:   //1 bajar un poco
+                      *cyc_cnt == 25 ? 4'sd4:    //1 bajar un poco
+                      *cyc_cnt == 120 ? 4'sd4:   //3 subir
+                      *cyc_cnt == 144 ? -4'sd4:  //3 subir
+                      *cyc_cnt == 260 ? -4'sd4:   //5 bajar
+                      *cyc_cnt == 284 ?  4'sd4:  //5 bajar
                       4'sd0 :
                    #ship == 2 ?
                       
