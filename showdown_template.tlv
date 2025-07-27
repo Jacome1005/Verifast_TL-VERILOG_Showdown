@@ -52,7 +52,7 @@
 // and "_" only)
 \TLV team_Jacome1005(/_top)
    /ship[*]
-      $xx_acc[7:0] =
+      $xx_acc[3:0] =
                    /*#ship == 0 ?
                       *cyc_cnt == 2 ? ($xx_p >  8'sd40)  ? (4'sd7)  :
                                       ($xx_p < -8'sd40)  ? (-4'sd7) :
@@ -80,7 +80,7 @@
                       -4'sd2 :
                    4'sd0 ;
       
-      $yy_acc[8:0] =
+      $yy_acc[3:0] =
                    #ship == 0 ?
                       ((8'sd24 <= $yy_p && $yy_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd2 :
                       ((-8'sd60 <= $yy_p && $yy_p <=  -8'sd24) && *cyc_cnt <= 29) ? 4'sd2 :
@@ -91,11 +91,13 @@
                       *cyc_cnt >= 2 && (/_top/enemy_ship[2]$yy_p == $yy_p && ~ /_top/enemy_ship[2]$destroyed) ? (4'sd15):
                       4'sd0 :
                    #ship == 2 ?
-                      ((8'sd24 <= $yy_p && $yy_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd2 :
-                      ((-8'sd60 <= $yy_p && $yy_p <=  -8'sd24) && *cyc_cnt <= 29) ? 4'sd2 :
-                      (*cyc_cnt[1:0] == 0 || *cyc_cnt[1:0] == 1) ? 4'sd2 :
-                      -4'sd2 :
+                      
+                    ((8'sd24 <= $yy_p && $yy_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd3:
+                      ((-8'sd60 <= $yy_p && $yy_p <=  -8'sd24) && *cyc_cnt <= 29) ? 4'sd3 :
+                      (*cyc_cnt[1:0] == 0 || *cyc_cnt[1:0] == 1) ? 4'sd3 :
+                       4'sd0 :
                    4'sd0 ;
+                   
 
       
       $fire_dir[1:0] =
