@@ -257,6 +257,16 @@
                           1'b0 :
                        #ship == 1 ?
                           *cyc_cnt <= 5 ? (1'b1):
+                          *cyc_cnt >= 24 && *cyc_cnt <= 30 && $energy >= 30 ? (1'b1):
+                          *cyc_cnt >= 69 && *cyc_cnt <= 74 && $energy >= 30 ? (1'b1):
+                          *cyc_cnt >= 143 && *cyc_cnt <= 148 && $energy >= 30 ? (1'b1):
+                          *cyc_cnt >= 218 && *cyc_cnt <= 223 && $energy >= 30 ? (1'b1):
+                          *cyc_cnt >= 283 && *cyc_cnt <= 288 && $energy >= 30 ? (1'b1):
+                          *cyc_cnt >= 343 && *cyc_cnt <= 348 && $energy >= 30 ? (1'b1):
+                          *cyc_cnt >= 369 && *cyc_cnt <= 374 && $energy >= 30 ? (1'b1):
+                          *cyc_cnt >= 473 && *cyc_cnt <= 478 && $energy >= 30 ? (1'b1):
+                          *cyc_cnt >= 509 && *cyc_cnt <= 514 && $energy >= 30 ? (1'b1):
+                          *cyc_cnt >= 539 && *cyc_cnt <= 545 && $energy >= 30 ? (1'b1):
                           1'b0 :
                        #ship == 2 ?
                           (
