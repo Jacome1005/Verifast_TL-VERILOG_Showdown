@@ -53,6 +53,22 @@
 \TLV team_Jacome1005(/_top)
    /ship[*]
       $xx_acc[3:0] =
+                   #ship == 0 ?
+                      ((8'sd24 <= $xx_p && $xx_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd2 :
+                      ((-8'sd60 <= $xx_p && $xx_p <=  -8'sd24) && *cyc_cnt <= 29) ? 4'sd2 :
+                      //((8'sd24 <= $xx_p && $xx_p <=  8'sd60) && *cyc_cnt <= 60) ? -4'sd4 :
+                      //((-8'sd60 <= $xx_p && $xx_p <=  -8'sd24) && *cyc_cnt <= 60) ? 4'sd2 :
+                      //(*cyc_cnt >= 60 && $xx_v != 6'b0 && ~(-8'sd24 >= $xx_p && $xx_p <= 8'sd24)) ? -4'sd2 :
+                      *cyc_cnt <= 80 ? 4'd0 :
+                         ( (*cyc_cnt % 80) == 12  ?  4'sd4 :
+                           (*cyc_cnt % 80) == 13  ?  4'sd4 :
+                           (*cyc_cnt % 80) == 17  ? -4'sd4 :
+                           (*cyc_cnt % 80) == 18  ? -4'sd4 :
+                           (*cyc_cnt % 80) == 19  ? -4'sd4 :
+                           (*cyc_cnt % 80) == 24  ?  4'sd4 :
+                           
+                                                   4'd0//-$xx_v
+                         ) :
                    /*#ship == 0 ?
                       *cyc_cnt == 2 ? ($xx_p >  8'sd40)  ? (4'sd7)  :
                                       ($xx_p < -8'sd40)  ? (-4'sd7) :
@@ -61,13 +77,6 @@
                                       ($xx_p < -8'sd40)  ? (-4'sd2) :
                                       4'sd0 :
                       4'sd0 :*/
-                   #ship == 0 ?
-                      ((8'sd24 <= $xx_p && $xx_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd2 :
-                      ((-8'sd60 <= $xx_p && $xx_p <=  -8'sd24) && *cyc_cnt <= 29) ? 4'sd2 :
-                      ((8'sd24 <= $xx_p && $xx_p <=  8'sd60) && *cyc_cnt <= 60) ? -4'sd4 :
-                      ((-8'sd60 <= $xx_p && $xx_p <=  -8'sd24) && *cyc_cnt <= 60) ? 4'sd2 :
-                      (*cyc_cnt >= 60 && $xx_v != 6'b0 && ~(-8'sd24 >= $xx_p && $xx_p <= 8'sd24)) ? -4'sd2 :
-                      4'sd0 :
                    #ship == 1 ?
                       *cyc_cnt >= 2 && (/_top/enemy_ship[0]$xx_p == $xx_p && ~ /_top/enemy_ship[0]$destroyed) ? (4'sd15):
                       *cyc_cnt >= 2 && (/_top/enemy_ship[1]$xx_p == $xx_p && ~ /_top/enemy_ship[1]$destroyed) ? (4'sd15):
@@ -84,6 +93,32 @@
                    #ship == 0 ?
                       ((8'sd24 <= $yy_p && $yy_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd2 :
                       ((-8'sd60 <= $yy_p && $yy_p <=  -8'sd24) && *cyc_cnt <= 29) ? 4'sd2 :
+                      *cyc_cnt >= 80 ?
+                         ( (*cyc_cnt % 80) == 0  ?  4'sd4 :
+                           (*cyc_cnt % 80) == 1  ?  4'sd2 :
+                           (*cyc_cnt % 80) == 7  ?  4'sd2 :
+                           (*cyc_cnt % 80) == 12  ? -4'sd4 :
+                           (*cyc_cnt % 80) == 13  ? -4'sd4 :
+                           (*cyc_cnt % 80) == 14  ? -4'sd4 :
+                           (*cyc_cnt % 80) == 15  ? -4'sd2 :
+                           (*cyc_cnt % 80) == 18  ?  4'sd2 :
+                           (*cyc_cnt % 80) == 28  ?  -4'sd4 :
+                           (*cyc_cnt % 80) == 32  ?   4'sd4 :
+                           (*cyc_cnt % 80) == 33  ?   4'sd4 :
+                           (*cyc_cnt % 80) == 44  ?   4'sd3 :
+                           (*cyc_cnt % 80) == 47  ?   4'sd1 :
+                           (*cyc_cnt % 80) == 57  ?   4'sd4 :
+                           (*cyc_cnt % 80) == 60  ?  -4'sd4 :
+                           (*cyc_cnt % 80) == 61  ?  -4'sd4 :
+                           (*cyc_cnt % 80) == 62  ?  -4'sd4 :
+                           (*cyc_cnt % 80) == 63  ?  -4'sd4 :
+                           (*cyc_cnt % 80) == 67  ?   4'sd4 :
+                           (*cyc_cnt % 80) == 75  ?   4'sd4 :
+                           (*cyc_cnt % 80) == 76  ?   4'sd2 :
+                           (*cyc_cnt % 80) == 78  ?  -4'sd1 :
+                           (*cyc_cnt % 80) == 79  ?  -4'sd1 :
+                                                    4'sd0
+                         ) :
                       4'sd0 :
                    #ship == 1 ?
                       *cyc_cnt >= 2 && (/_top/enemy_ship[0]$yy_p == $yy_p && ~ /_top/enemy_ship[0]$destroyed) ? (4'sd15):
@@ -102,11 +137,8 @@
       
       $fire_dir[1:0] =
                      #ship == 0 ?
-                        /*
-                        *cyc_cnt == 2 ? (2'd0) :
-                        *cyc_cnt == 3 ? (2'd3) :
                         *cyc_cnt == 14 ? (2'd1) :
-                        *cyc_cnt == 15 ? (2'd2) :*/
+                        *cyc_cnt == 15 ? (2'd2) :
                         //en arreglo -> jacobo
                         //(*cyc_cnt >= 16 && */(*enemy_ship[*]$xx_p <= $xx_p + 8'sd5 && *enemy_ship[*]$xx_p >= $xx_p - 8'sd5 /*&& $enemy_destroyed == 1'b0*/) && (*enemy_ship[*]$yy_p >= $yy_p && *enemy_ship[*]$yy_p <= 8'sd60 )) ? 2'd0 :
                         /_top/enemy_ship[0]$xx_p == $xx_p ? 2'd3 :
@@ -178,11 +210,10 @@
       
       $attempt_fire =
                      #ship == 0 ?
-                        /*cyc_cnt == 2 ? (1'b1) :
-                        *cyc_cnt == 3 ? (1'b1) :
                         *cyc_cnt == 14 ? (1'b1) :
                         *cyc_cnt == 15 ? (1'b1) :
-                        */(*cyc_cnt >= 16 && (>>1$fire_dir != $fire_dir)) ? 1'b1 :
+                        (*cyc_cnt >= 16 && (>>1$fire_dir != $fire_dir)) ? 1'b1 :
+                        (>>1$attempt_fire == 1'b1) && (>>2$attempt_fire == 1'b0) ? 1'b1 :
                         1'b0 :
                      #ship == 1 ?
                         (*cyc_cnt >= 5) ? 1'b1 :
@@ -198,7 +229,9 @@
       
       $attempt_shield = #ship == 0 ?
                           (*cyc_cnt == 30) ? 1'b1 :
-                          (*cyc_cnt >= 4 && >>1$attempt_shield == 1'b0) ? 1'b1 :
+                          //(*cyc_cnt >= 4 && >>1$attempt_shield == 1'b0) ? 1'b1 :
+                          (*cyc_cnt >= 4 && *cyc_cnt <= 12) ? 1'b1 :
+                          (*cyc_cnt >= 19 && *cyc_cnt <= 29) ? 1'b1 :
                           1'b0 :
                         #ship == 1 ?
                           *cyc_cnt >= 5 && (/_top/enemy_ship[0]$yy_p == $yy_p || /_top/enemy_ship[0]$xx_p == $xx_p) ? (1'b1):
@@ -215,8 +248,8 @@
                         1'b0 ;
 
       $attempt_cloak = #ship == 0 ?
-                          (*cyc_cnt == 30) ? 1'b1 :
-                          (*cyc_cnt >= 4 && >>1$attempt_shield == 1'b1 && $xx_v >= 6'sd4) ? 1'b1 :
+                          (*cyc_cnt == 60) ? 1'b1 :
+                          (*cyc_cnt >= 30 && >>1$attempt_shield == 1'b1 && $xx_v >= 6'sd4) ? 1'b1 :
                           1'b0 :
                        #ship == 1 ?
                           *cyc_cnt <= 5 ? (1'b1):
@@ -264,6 +297,30 @@
          ];
       },
 
+//BORRAR
+\TLV team_demo3(/_top)
+   /ship[*]
+      $xx_acc[7:0] =
+         #ship == 0 ?
+            (8'sd36 <= $xx_p && $xx_p <=  8'sd64) ? -4'sd4 :
+            (-8'sd64 <= $xx_p && $xx_p <=  -8'sd36) ? 4'sd4 :
+            4'sd0 :
+         #ship == 1 ?
+            (8'sd36 <= $xx_p && $xx_p <=  8'sd64) ? -4'sd4 :
+            (-8'sd64 <= $xx_p && $xx_p <=  -8'sd36) ? 4'sd4 :
+            4'sd0 :
+         #ship == 2 ?
+            *cyc_cnt == 2 ? 4'sd4 :
+            (8'sd48 <= $xx_p && $xx_p <=  8'sd64) ? -4'sd4 :
+            (-8'sd64 <= $xx_p && $xx_p <=  -8'sd48) ? 4'sd4 :
+            4'sd0 :
+         4'sd0 ;
+      $fire_dir[1:0] = 2'd3;
+      $attempt_fire = 1'b1;
+
+\TLV team_demo3_viz(/_top, _team_num)
+   // Visualize IOs.
+   m5+io_viz_only(/_top, _team_num)
 
 // Compete!
 // This defines the competition to simulate (for development).
@@ -284,14 +341,16 @@
    // Choose your opponent.
    // Note that inactive teams must be commented with "///", not "//", to prevent M5 macro evaluation.
    ///m5_team(random, Random)
-   m5_team(sitting_duck, Sitting Duck)
+   ///m5_team(sitting_duck, Sitting Duck)
    ///m5_team(demo1, Test 1)
+   ///m5_team(demo2, Test 2)
+   m5_team(demo3, Demo 3)
    
    
    // Instantiate the Showdown environment.
    m5+showdown(/top, /secret)
    
-   *passed = /secret$passed || *cyc_cnt > 150;   // Defines max cycles, up to ~600.
+   *passed = /secret$passed || *cyc_cnt > 600;   // Defines max cycles, up to ~600.
    *failed = /secret$failed;
 \SV
    endmodule

@@ -630,7 +630,23 @@
 \TLV team_demo2_viz(/_top, _team_num)
    // Visualize IOs.
    m5+io_viz_only(/_top, _team_num)
+   
 
+\TLV team_demo3(/_top)
+   /ship[*]
+      $xx_acc[7:0] =
+         #ship == 0 || #ship == 1 || #ship == 2 ?
+            (8'sd32 <= $xx_p && $xx_p <=  8'sd64) ? -4'sd2 :
+            (-8'sd64 <= $xx_p && $xx_p <=  -8'sd32) ? 4'sd2 :
+            4'sd0 :
+         4'sd0 ;
+      $fire_dir[1:0] = 2'd3;
+      $attempt_fire = 1'b1;
+
+\TLV team_demo3_viz(/_top, _team_num)
+   // Visualize IOs.
+   m5+io_viz_only(/_top, _team_num)
+   
 
 // An opponent that uses default values (and thus, the ships do absolutely nothing).
 \TLV team_sitting_duck(/_top)
@@ -1510,7 +1526,8 @@
    m5_team(random, Random 1)
    ///m5_team(random, Random 2)
    ///m5_team(demo1, Demo 1)
-   m5_team(demo2, Demo 2)
+   ///m5_team(demo2, Demo 2)
+   m5_team(demo3, Demo 3)
    ///m5_team(sitting_duck, Sitting Duck)
    
    // Instantiate the Showdown environment.
