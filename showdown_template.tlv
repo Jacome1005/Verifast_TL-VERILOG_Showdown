@@ -74,6 +74,8 @@
                       *cyc_cnt >= 2 && (/_top/enemy_ship[2]$xx_p == $xx_p && ~ /_top/enemy_ship[2]$destroyed) ? (4'sd15):
                       4'sd0 :
                    #ship == 2 ?
+                      ((8'sd24 <= $xx_p && $xx_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd2 :
+                      ((-8'sd60 <= $xx_p && $xx_p <=  -8'sd24) && *cyc_cnt <= 29) ? 4'sd2 :
                       (*cyc_cnt[2] == 1'b0) ? 4'sd2 :
                       -4'sd2 :
                    4'sd0 ;
@@ -89,6 +91,8 @@
                       *cyc_cnt >= 2 && (/_top/enemy_ship[2]$yy_p == $yy_p && ~ /_top/enemy_ship[2]$destroyed) ? (4'sd15):
                       4'sd0 :
                    #ship == 2 ?
+                      ((8'sd24 <= $yy_p && $yy_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd2 :
+                      ((-8'sd60 <= $yy_p && $yy_p <=  -8'sd24) && *cyc_cnt <= 29) ? 4'sd2 :
                       (*cyc_cnt[1:0] == 0 || *cyc_cnt[1:0] == 1) ? 4'sd2 :
                       -4'sd2 :
                    4'sd0 ;
@@ -225,6 +229,7 @@
                            ((/_top/enemy_ship[2]$xx_p - $xx_p)*2 + (/_top/enemy_ship[2]$yy_p - $yy_p)*2 < 8'd100)) ? 1 : 0)
                         ) >= 2 ? 1'b1 :
                         1'b0 :
+                       1'b0;
 
       // defaults for everything else
       /*
