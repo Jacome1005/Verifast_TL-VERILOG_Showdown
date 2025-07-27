@@ -228,7 +228,7 @@
                           1'b0 :
                         1'b0 ;
       
-      $attempt_shield = 
+      $attempt_shield =
                          #ship == 0 ?
                           (*cyc_cnt == 30) ? 1'b1 :
                           //(*cyc_cnt >= 4 && >>1$attempt_shield == 1'b0) ? 1'b1 :
@@ -252,7 +252,7 @@
                          1'b0 :
                        1'b0 ;
 
-      $attempt_cloak = 
+      $attempt_cloak =
                        #ship == 0 ?
                           (*cyc_cnt == 60) ? 1'b1 :
                           (*cyc_cnt >= 30 && >>1$attempt_shield == 1'b1 && $xx_v >= 6'sd4) ? 1'b1 :
