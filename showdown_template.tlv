@@ -86,9 +86,10 @@
                       ((8'sd24 <= $xx_p && $xx_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd2 :
                       ((-8'sd60 <= $xx_p && $xx_p <=  -8'sd24) && *cyc_cnt <= 29) ? 4'sd2 :
                       (*cyc_cnt[2] == 1'b0) ? 4'sd2 :
+                     
                       -4'sd2 :
                    4'sd0 ;
-      
+
       $yy_acc[3:0] =
                    #ship == 0 ?
                       ((8'sd24 <= $yy_p && $yy_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd2 :
@@ -125,14 +126,14 @@
                       *cyc_cnt >= 2 && (/_top/enemy_ship[1]$yy_p == $yy_p && ~ /_top/enemy_ship[1]$destroyed) ? (4'sd15):
                       *cyc_cnt >= 2 && (/_top/enemy_ship[2]$yy_p == $yy_p && ~ /_top/enemy_ship[2]$destroyed) ? (4'sd15):
                       4'sd0 :
+  
                    #ship == 2 ?
-                      
-                    ((8'sd24 <= $yy_p && $yy_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd3:
-                      ((-8'sd60 <= $yy_p && $yy_p <=  -8'sd24) && *cyc_cnt <= 29) ? 4'sd3 :
-                      (*cyc_cnt[1:0] == 0 || *cyc_cnt[1:0] == 1) ? 4'sd3 :
-                       4'sd0 :
-                   4'sd0 ;
-                   
+                       ($yy_p <= -8'sd29) ? 4'sd3 :      
+                       ($yy_p >= 8'sd29)  ? -4'sd3 :     
+                       (*cyc_cnt[1:0] == 0 || *cyc_cnt[1:0] == 1) ? 4'sd3 :  
+                       -4'sd3 :
+              4'sd0;
+   
 
       
       $fire_dir[1:0] =
@@ -219,15 +220,16 @@
                         (*cyc_cnt >= 5) ? 1'b1 :
                         1'b0 :
                      #ship == 2 ?
-                        (*cyc_cnt >= 2 && *cyc_cnt <= 7) ? (1'b1) :
-                        (
-                           (>>1$fire_dir != $fire_dir) &&
-                           (! /_top/enemy_ship[0]$destroyed || ! /_top/enemy_ship[1]$destroyed || ! /_top/enemy_ship[2]$destroyed)
-                         ) ? 1'b1 :
-                        1'b0 :
-                     1'b0 ;
+                      (
+                        (! /_top/enemy_ship[0]$destroyed &&
+                           ((/_top/enemy_ship[0]$xx_p - $xx_p)**2 + (/_top/enemy_ship[0]$yy_p - $yy_p)**2 < 8'sd36)) || (! /_top/enemy_ship[1]$destroyed &&
+                           ((/_top/enemy_ship[1]$xx_p - $xx_p)**2 + (/_top/enemy_ship[1]$yy_p - $yy_p)**2 < 8'sd36)) || (! /_top/enemy_ship[2]$destroyed &&
+                           ((/_top/enemy_ship[2]$xx_p - $xx_p)**2 + (/_top/enemy_ship[2]$yy_p - $yy_p)**2 < 8'sd36))) ? 1'b1 :
+                          1'b0 :
+                        1'b0 ;
       
-      $attempt_shield = #ship == 0 ?
+      $attempt_shield = 
+                         #ship == 0 ?
                           (*cyc_cnt == 30) ? 1'b1 :
                           //(*cyc_cnt >= 4 && >>1$attempt_shield == 1'b0) ? 1'b1 :
                           (*cyc_cnt >= 4 && *cyc_cnt <= 12) ? 1'b1 :
@@ -239,15 +241,17 @@
                           *cyc_cnt >= 5 && (/_top/enemy_ship[2]$yy_p == $yy_p || /_top/enemy_ship[2]$xx_p == $xx_p) ? (1'b1):
                           1'b0 :
                         #ship == 2 ?
-                          (
+                         (
                            (! /_top/enemy_ship[0]$destroyed &&
-                           ((/_top/enemy_ship[0]$xx_p - $xx_p)**2 + (/_top/enemy_ship[0]$yy_p - $yy_p)**2 < 8'sd36)) || (! /_top/enemy_ship[1]$destroyed &&
-                           ((/_top/enemy_ship[1]$xx_p - $xx_p)**2 + (/_top/enemy_ship[1]$yy_p - $yy_p)**2 < 8'sd36)) || (! /_top/enemy_ship[2]$destroyed &&
-                           ((/_top/enemy_ship[2]$xx_p - $xx_p)**2 + (/_top/enemy_ship[2]$yy_p - $yy_p)**2 < 8'sd36))) ? 1'b1 :
-                          1'b0 :
-                        1'b0 ;
+                           ((/_top/enemy_ship[0]$xx_p - $xx_p)*2 + (/_top/enemy_ship[0]$yy_p - $yy_p)*2 < 8'd36)) ||(! /_top/enemy_ship[1]$destroyed &&
+                           ((/_top/enemy_ship[1]$xx_p - $xx_p)*2 + (/_top/enemy_ship[1]$yy_p - $yy_p)*2 < 8'd36)) ||(! /_top/enemy_ship[2]$destroyed &&
+                           ((/_top/enemy_ship[2]$xx_p - $xx_p)*2 + (/_top/enemy_ship[2]$yy_p - $yy_p)*2 < 8'd36))
+                        ) ? 1'b1 :
+                        1'b0 :
+                     1'b0 ;
 
-      $attempt_cloak = #ship == 0 ?
+      $attempt_cloak = 
+                       #ship == 0 ?
                           (*cyc_cnt == 60) ? 1'b1 :
                           (*cyc_cnt >= 30 && >>1$attempt_shield == 1'b1 && $xx_v >= 6'sd4) ? 1'b1 :
                           1'b0 :
@@ -255,7 +259,7 @@
                           *cyc_cnt <= 5 ? (1'b1):
                           1'b0 :
                        #ship == 2 ?
-                          (
+                         (
                            ((! /_top/enemy_ship[0]$destroyed &&
                            ((/_top/enemy_ship[0]$xx_p - $xx_p)*2 + (/_top/enemy_ship[0]$yy_p - $yy_p)*2 < 8'd100)) ? 1 : 0) +
                            ((! /_top/enemy_ship[1]$destroyed &&
@@ -264,7 +268,7 @@
                            ((/_top/enemy_ship[2]$xx_p - $xx_p)*2 + (/_top/enemy_ship[2]$yy_p - $yy_p)*2 < 8'd100)) ? 1 : 0)
                         ) >= 2 ? 1'b1 :
                         1'b0 :
-                       1'b0;
+                     1'b0 ;
 
       // defaults for everything else
       /*
