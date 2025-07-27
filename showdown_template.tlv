@@ -614,8 +614,8 @@
    ///m5_team(sitting_duck, Sitting Duck)
    ///m5_team(demo1, Test 1)
    ///m5_team(demo2, Test 2)
-  m5_team(demo3, Demo 3)
-   ///m5_team(demo4, Demo 4)
+   ///m5_team(demo3, Demo 3)
+   m5_team(demo4, Demo 4)
    ///m5_team(demo5, Demo 5)
    ///m5_team(demo6, Demo 6)
    
