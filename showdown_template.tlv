@@ -53,7 +53,7 @@
 \TLV team_Jacome1005(/_top)
    /ship[*]
       
-      $xx_acc[3:0] =
+      $xx_acc[8:0] =
                    /*#ship == 0 ?
                       *cyc_cnt == 1 ? ($xx_pp >  8'd40)  ? (8'd2)  :
                                       ($xx_pp < -8'd40)  ? (-8'd2) :
@@ -73,7 +73,7 @@
                      -4'sd2 :
                      4'sd0 ;
       
-      $yy_acc[3:0] =
+      $yy_acc[8:0] =
                    #ship == 0 ?
                       ((8'd24 <= $yy_p && $yy_p <=  8'd60) && *cyc_cnt <= 29) ? -8'd2 :
                       ((-8'd60 <= $yy_p && $yy_p <=  -8'd24) && *cyc_cnt <= 29) ? 8'd2 :
