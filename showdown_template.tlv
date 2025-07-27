@@ -209,9 +209,7 @@
                         *cyc_cnt == 24 ? (2'd3) :
                         2'd0 :
                      #ship == 1 ?
-                        *cyc_cnt > 4 && *cyc_cnt < 25  && (!/_top/enemy_ship[0]$destroyed && \$signed(/_top/enemy_ship[2]$yy_p) >= -40) ? 2'd3:
-                        *cyc_cnt > 4 && *cyc_cnt < 25  && (!/_top/enemy_ship[1]$destroyed && \$signed(/_top/enemy_ship[2]$yy_p) >= -40) ? 2'd3:
-                        *cyc_cnt > 4 && *cyc_cnt < 25  && (!/_top/enemy_ship[2]$destroyed && \$signed(/_top/enemy_ship[1]$yy_p) >= -40) ? 2'd3:
+                        *cyc_cnt < 25  && ((\$signed(/_top/enemy_ship[1]$xx_p) < 8'sd1) || (\$signed(/_top/enemy_ship[0]$xx_p) < 8'sd1) || (\$signed(/_top/enemy_ship[2]$xx_p) < 8'sd1)) ? 2'd3:
                         *cyc_cnt >= 40 && *cyc_cnt < 100 ? 2'd3:     //1 UP
                         *cyc_cnt >= 100 && *cyc_cnt < 190 ? 2'd2:    //2 LEFT
                         *cyc_cnt >= 190 && *cyc_cnt < 250? 2'd1:    //3 DOWN
