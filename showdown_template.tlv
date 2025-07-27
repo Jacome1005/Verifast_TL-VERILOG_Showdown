@@ -251,6 +251,9 @@
                         *cyc_cnt == 24 ? (2'd3) :
                         2'd0 :
                      #ship == 1 ?
+                        *cyc_cnt > 4 && *cyc_cnt < 25  && (!/_top/enemy_ship[0]$destroyed && \$signed(/_top/enemy_ship[2]$yy_p) >= -40) ? 2'd3:
+                        *cyc_cnt > 4 && *cyc_cnt < 25  && (!/_top/enemy_ship[1]$destroyed && \$signed(/_top/enemy_ship[2]$yy_p) >= -40) ? 2'd3:
+                        *cyc_cnt > 4 && *cyc_cnt < 25  && (!/_top/enemy_ship[2]$destroyed && \$signed(/_top/enemy_ship[1]$yy_p) >= -40) ? 2'd3:
                         *cyc_cnt >= 40 && *cyc_cnt < 100 ? 2'd3:     //1 UP
                         *cyc_cnt >= 100 && *cyc_cnt < 190 ? 2'd2:    //2 LEFT
                         *cyc_cnt >= 190 && *cyc_cnt < 250? 2'd1:    //3 DOWN
@@ -346,7 +349,7 @@
                         (>>1$attempt_fire == 1'b1) && (>>2$attempt_fire == 1'b0) ? 1'b1 :
                         1'b0 :
                      #ship == 1 ?
-                        *cyc_cnt >= 5 ? 1'b1 :
+                        *cyc_cnt >= 2 ? 1'b1 :
                         *cyc_cnt >= 24 && *cyc_cnt <= 30 && $energy >= 40 ? (1'b0):
                         *cyc_cnt >= 69 && *cyc_cnt <= 74 && $energy >= 40 ? (1'b0):
                         *cyc_cnt >= 143 && *cyc_cnt <= 148 && $energy >= 40 ? (1'b0):
@@ -397,9 +400,9 @@
                           ) :
                           1'b0 :
                         #ship == 1 ?
-                          (/_top/enemy_ship[0]$xx_p == $xx_p || /_top/enemy_ship[0]$yy_p == $yy_p) && $energy >= 39 ? (1'b1):
-                          (/_top/enemy_ship[1]$xx_p == $xx_p || /_top/enemy_ship[1]$yy_p == $yy_p) && $energy >= 39 ? (1'b1):
-                          (/_top/enemy_ship[2]$xx_p == $xx_p || /_top/enemy_ship[2]$yy_p == $yy_p) && $energy >= 39 ? (1'b1):
+                          (/_top/enemy_ship[0]$xx_p == $xx_p || /_top/enemy_ship[0]$yy_p == $yy_p) && $energy >= 35 ? (1'b1):
+                          (/_top/enemy_ship[1]$xx_p == $xx_p || /_top/enemy_ship[1]$yy_p == $yy_p) && $energy >= 35 ? (1'b1):
+                          (/_top/enemy_ship[2]$xx_p == $xx_p || /_top/enemy_ship[2]$yy_p == $yy_p) && $energy >= 35 ? (1'b1):
                           1'b0 :
                         #ship == 2 ?
                           (
@@ -421,7 +424,7 @@
                           //(*cyc_cnt >= 30 && >>1$attempt_shield == 1'b1 && $xx_v >= 6'sd4) ? 1'b1 :
                           1'b0 :
                        #ship == 1 ?
-                          *cyc_cnt <= 5 ? (1'b1):
+                          *cyc_cnt <= 3 ? (1'b1):
                           *cyc_cnt >= 24 && *cyc_cnt <= 30 && $energy >= 25 ? (1'b1):
                           *cyc_cnt >= 69 && *cyc_cnt <= 74 && $energy >= 25 ? (1'b1):
                           *cyc_cnt >= 143 && *cyc_cnt <= 148 && $energy >= 25 ? (1'b1):
