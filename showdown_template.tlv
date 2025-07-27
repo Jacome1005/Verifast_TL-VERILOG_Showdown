@@ -270,9 +270,9 @@
                           (*cyc_cnt >= 19 && *cyc_cnt <= 29) ? 1'b1 :
                           1'b0 :
                         #ship == 1 ?
-                          *cyc_cnt >= 5 && (/_top/enemy_ship[0]$yy_p == $yy_p || /_top/enemy_ship[0]$xx_p == $xx_p) ? (1'b1):
-                          *cyc_cnt >= 5 && (/_top/enemy_ship[1]$yy_p == $yy_p || /_top/enemy_ship[1]$xx_p == $xx_p) ? (1'b1):
-                          *cyc_cnt >= 5 && (/_top/enemy_ship[2]$yy_p == $yy_p || /_top/enemy_ship[2]$xx_p == $xx_p) ? (1'b1):
+                          (/_top/enemy_ship[0]$xx_p == $xx_p || /_top/enemy_ship[0]$yy_p == $yy_p) && $energy >= 39 ? (1'b1):
+                          (/_top/enemy_ship[1]$xx_p == $xx_p || /_top/enemy_ship[1]$yy_p == $yy_p) && $energy >= 39 ? (1'b1):
+                          (/_top/enemy_ship[2]$xx_p == $xx_p || /_top/enemy_ship[2]$yy_p == $yy_p) && $energy >= 39 ? (1'b1):
                           1'b0 :
                         #ship == 2 ?
                           (
