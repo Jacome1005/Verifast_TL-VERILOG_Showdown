@@ -330,9 +330,23 @@
                           //(*cyc_cnt >= 4 && >>1$attempt_shield == 1'b0) ? 1'b1 :
                           (*cyc_cnt >= 4 && *cyc_cnt <= 10) ? 1'b1 :
                           (*cyc_cnt >= 20 && *cyc_cnt <= 29) ? 1'b1 :
+                          (*cyc_cnt >= 38 && *cyc_cnt <= 43) ? 1'b1 :
+                          (*cyc_cnt >= 61 && *cyc_cnt <= 64) ? 1'b1 :
+                          (*cyc_cnt >= 66 && *cyc_cnt <= 69) ? 1'b1 :
+                          (*cyc_cnt >= 73 && *cyc_cnt <= 75) ? 1'b1 :
                           *cyc_cnt >= 80 ?
-                          ((*cyc_cnt % 80) == 7  ?  1'd1 :
+                          ((*cyc_cnt % 80) == 0  ?  1'd1 :
+                           (*cyc_cnt % 80) == 2  ?  1'd1 :
+                           (*cyc_cnt % 80) == 3  ?  1'd1 :
+                           (*cyc_cnt % 80) == 4  ?  1'd1 :
+                           (*cyc_cnt % 80) == 7  ?  1'd1 :
                            (*cyc_cnt % 80) == 8  ?  1'd1 :
+                           (*cyc_cnt % 80) == 32  ?  1'd1 :
+                           (*cyc_cnt % 80) == 33  ?  1'd1 :
+                           (*cyc_cnt % 80) == 47  ?  1'd1 :
+                           (*cyc_cnt % 80) == 48  ?  1'd1 :
+                           (*cyc_cnt % 80) == 64  ?  1'd1 :
+                           (*cyc_cnt % 80) == 65  ?  1'd1 :
                                                     1'd0
                           ) :
                           1'b0 :
@@ -353,10 +367,10 @@
       $attempt_cloak = #ship == 0 ?
                           (*cyc_cnt == 60) ? 1'b1 :
                           *cyc_cnt >= 80 ?
-                          ((*cyc_cnt % 80) == 1  ?  1'd1 :
-                           (*cyc_cnt % 80) == 2  ?  1'd1 :
-                           (*cyc_cnt % 80) == 3  ?  1'd1 :
-                           (*cyc_cnt % 80) == 4  ?  1'd1 :
+                          ((*cyc_cnt % 80) == 9  ?  1'd1 :
+                           (*cyc_cnt % 80) == 17  ?  1'd1 :
+                           (*cyc_cnt % 80) == 24  ?  1'd1 :
+                           (*cyc_cnt % 80) == 39  ?  1'd1 :
                                                     1'd0
                           ) :
                           (*cyc_cnt >= 30 && >>1$attempt_shield == 1'b1 && $xx_v >= 6'sd4) ? 1'b1 :
@@ -479,8 +493,8 @@
    ///m5_team(sitting_duck, Sitting Duck)
    ///m5_team(demo1, Test 1)
    ///m5_team(demo2, Test 2)
-   ///m5_team(demo3, Demo 3)
-   m5_team(demo4, Demo 4)
+   m5_team(demo3, Demo 3)
+   ///m5_team(demo4, Demo 4)
    
    
    // Instantiate the Showdown environment.
