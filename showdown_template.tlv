@@ -66,7 +66,20 @@
                            (*cyc_cnt % 80) == 18  ? -4'sd4 :
                            (*cyc_cnt % 80) == 19  ? -4'sd4 :
                            (*cyc_cnt % 80) == 24  ?  4'sd4 :
-                           
+                           (*cyc_cnt % 80) == 32  ?  4'sd1 :
+                           (*cyc_cnt % 80) == 33  ?  4'sd4 :
+                           (*cyc_cnt % 80) == 44  ? -4'sd4 :
+                           (*cyc_cnt % 80) == 45  ? -4'sd1 :
+                           (*cyc_cnt % 80) == 47  ? -4'sd4 :
+                           (*cyc_cnt % 80) == 56  ?  4'sd4 :
+                           (*cyc_cnt % 80) == 57  ?  4'sd4 :
+                           (*cyc_cnt % 80) == 58  ?  4'sd4 :
+                           (*cyc_cnt % 80) == 61  ? -4'sd4 :
+                           (*cyc_cnt % 80) == 62  ? -4'sd4 :
+                           (*cyc_cnt % 80) == 66  ? -4'sd4 :
+                           (*cyc_cnt % 80) == 67  ? -4'sd2 :
+                           (*cyc_cnt % 80) == 78  ?  4'sd3 :
+                           (*cyc_cnt % 80) == 79  ?  4'sd3 :
                                                    4'd0//-$xx_v
                          ) :
                    /*#ship == 0 ?
@@ -139,28 +152,44 @@
                      #ship == 0 ?
                         *cyc_cnt == 14 ? (2'd1) :
                         *cyc_cnt == 15 ? (2'd2) :
+                        *cyc_cnt == 16 ? (2'd2) :
+                        *cyc_cnt >= 80 ?
+                        ((*cyc_cnt % 80) == 14  ?  2'd1 :
+                         (*cyc_cnt % 80) == 16  ?  2'd1 :
+                         (*cyc_cnt % 80) == 18  ?  2'd2 :
+                         (*cyc_cnt % 80) == 19  ?  2'd3 :
+                         (*cyc_cnt % 80) == 24  ?  2'd3 :
+                         (*cyc_cnt % 80) == 30  ?  2'd3 :
+                         (*cyc_cnt % 80) == 32  ?  2'd3 :
+                         (*cyc_cnt % 80) == 36  ?  2'd3 :
+                         (*cyc_cnt % 80) == 43  ?  2'd3 :
+                         (*cyc_cnt % 80) == 45  ?  2'd2 :
+                         (*cyc_cnt % 80) == 46  ?  2'd3 :
+                         (*cyc_cnt % 80) == 50  ?  2'd3 :
+                         (*cyc_cnt % 80) == 56  ?  2'd2 :
+                         (*cyc_cnt % 80) == 57  ?  2'd1 :
+                         (*cyc_cnt % 80) == 58  ?  2'd3 :
+                         (*cyc_cnt % 80) == 61  ?  2'd1 :
+                         (*cyc_cnt % 80) == 62  ?  2'd2 :
+                         (*cyc_cnt % 80) == 63  ?  2'd3 :
+                         (*cyc_cnt % 80) == 65  ?  2'd2 :
+                         (*cyc_cnt % 80) == 70  ?  2'd1 :
+                         (*cyc_cnt % 80) == 75  ?  2'd3 :
+                         (*cyc_cnt % 80) == 77  ?  2'd3 :
+                                                   2'd0
+                        ) :
                         //en arreglo -> jacobo
                         //(*cyc_cnt >= 16 && */(*enemy_ship[*]$xx_p <= $xx_p + 8'sd5 && *enemy_ship[*]$xx_p >= $xx_p - 8'sd5 /*&& $enemy_destroyed == 1'b0*/) && (*enemy_ship[*]$yy_p >= $yy_p && *enemy_ship[*]$yy_p <= 8'sd60 )) ? 2'd0 :
                         /_top/enemy_ship[0]$xx_p == $xx_p ? 2'd3 :
                         /_top/enemy_ship[1]$xx_p == $xx_p ? 2'd3 :
                         /_top/enemy_ship[2]$xx_p == $xx_p ? 2'd3 :
-                        (*cyc_cnt >= 16 && (/_top/enemy_ship[0]$yy_p <= 8'sd60 && $yy_p < /_top/enemy_ship[0]$yy_p)) ? 2'd3 :
-                        (*cyc_cnt >= 16 && (/_top/enemy_ship[0]$yy_p <= 8'sd60 && $yy_p >= -8'sd60 && $yy_p > /_top/enemy_ship[0]$yy_p)) ? 2'd3 :
+                        (*cyc_cnt >= 17 && (/_top/enemy_ship[0]$yy_p <= 8'sd60 && $yy_p < /_top/enemy_ship[0]$yy_p)) ? 2'd3 :
+                        (*cyc_cnt >= 17 && (/_top/enemy_ship[0]$yy_p <= 8'sd60 && $yy_p >= -8'sd60 && $yy_p > /_top/enemy_ship[0]$yy_p)) ? 2'd3 :
                         
-                        (*cyc_cnt >= 16 && (/_top/enemy_ship[0]$xx_p <= $xx_p + 8'sd6 && /_top/enemy_ship[0]$xx_p >= $xx_p - 8'sd6 && ~ /_top/enemy_ship[0]$destroyed) && (/_top/enemy_ship[0]$yy_p < $yy_p && /_top/enemy_ship[0]$yy_p <= 8'sd60 )) ? 2'd3 :
-                        (*cyc_cnt >= 16 && (/_top/enemy_ship[0]$xx_p <= $xx_p + 8'sd6 && /_top/enemy_ship[0]$xx_p >= $xx_p - 8'sd6 && ~ /_top/enemy_ship[0]$destroyed) && (/_top/enemy_ship[0]$yy_p < $yy_p && /_top/enemy_ship[0]$yy_p >= -8'sd60)) ? 2'd1 :
-                        (*cyc_cnt >= 16 && (/_top/enemy_ship[0]$yy_p <= $yy_p + 8'sd6 && /_top/enemy_ship[0]$yy_p >= $yy_p - 8'sd6 && ~ /_top/enemy_ship[0]$destroyed) && (/_top/enemy_ship[0]$xx_p > $xx_p && /_top/enemy_ship[0]$xx_p <= 8'sd60)) ? 2'd0 :
-                        (*cyc_cnt >= 16 && (/_top/enemy_ship[0]$yy_p <= $yy_p + 8'sd6 && /_top/enemy_ship[0]$yy_p >= $yy_p - 8'sd6 && ~ /_top/enemy_ship[0]$destroyed) && (/_top/enemy_ship[0]$xx_p < $xx_p && /_top/enemy_ship[0]$xx_p >= -8'sd60)) ? 2'd2 :
-                        
-                        (*cyc_cnt >= 16 && (/_top/enemy_ship[1]$xx_p <= $xx_p + 8'sd6 && /_top/enemy_ship[1]$xx_p >= $xx_p - 8'sd6 && ~ /_top/enemy_ship[1]$destroyed) && (/_top/enemy_ship[1]$yy_p > $yy_p && /_top/enemy_ship[1]$yy_p <= 8'sd60)) ? 2'd3 :
-                        (*cyc_cnt >= 16 && (/_top/enemy_ship[1]$xx_p <= $xx_p + 8'sd6 && /_top/enemy_ship[1]$xx_p >= $xx_p - 8'sd6 && ~ /_top/enemy_ship[1]$destroyed) && (/_top/enemy_ship[1]$yy_p < $yy_p && /_top/enemy_ship[1]$yy_p >= -8'sd60)) ? 2'd1 :
-                        (*cyc_cnt >= 16 && (/_top/enemy_ship[1]$yy_p <= $yy_p + 8'sd6 && /_top/enemy_ship[1]$yy_p >= $yy_p - 8'sd6 && ~ /_top/enemy_ship[1]$destroyed) && (/_top/enemy_ship[1]$xx_p > $xx_p && /_top/enemy_ship[1]$xx_p <= 8'sd60)) ? 2'd0 :
-                        (*cyc_cnt >= 16 && (/_top/enemy_ship[1]$yy_p <= $yy_p + 8'sd6 && /_top/enemy_ship[1]$yy_p >= $yy_p - 8'sd6 && ~ /_top/enemy_ship[1]$destroyed) && (/_top/enemy_ship[1]$xx_p < $xx_p && /_top/enemy_ship[1]$xx_p >= -8'sd60)) ? 2'd2 :
-                        
-                        (*cyc_cnt >= 16 && (/_top/enemy_ship[2]$xx_p <= $xx_p + 8'sd6 && /_top/enemy_ship[2]$xx_p >= $xx_p - 8'sd6 && ~ /_top/enemy_ship[2]$destroyed) && (/_top/enemy_ship[2]$yy_p > $yy_p && /_top/enemy_ship[2]$yy_p <= 8'sd60)) ? 2'd3 :
-                        (*cyc_cnt >= 16 && (/_top/enemy_ship[2]$xx_p <= $xx_p + 8'sd6 && /_top/enemy_ship[2]$xx_p >= $xx_p - 8'sd6 && ~ /_top/enemy_ship[2]$destroyed) && (/_top/enemy_ship[2]$yy_p < $yy_p && /_top/enemy_ship[2]$yy_p >= -8'sd60)) ? 2'd1 :
-                        (*cyc_cnt >= 16 && (/_top/enemy_ship[2]$yy_p <= $yy_p + 8'sd6 && /_top/enemy_ship[2]$yy_p >= $yy_p - 8'sd6 && ~ /_top/enemy_ship[2]$destroyed) && (/_top/enemy_ship[2]$xx_p > $xx_p && /_top/enemy_ship[2]$xx_p <= 8'sd60)) ? 2'd0 :
-                        (*cyc_cnt >= 16 && (/_top/enemy_ship[2]$yy_p <= $yy_p + 8'sd6 && /_top/enemy_ship[2]$yy_p >= $yy_p - 8'sd6 && ~ /_top/enemy_ship[2]$destroyed) && (/_top/enemy_ship[2]$xx_p < $xx_p && /_top/enemy_ship[2]$xx_p >= -8'sd60)) ? 2'd2 :
+                        (*cyc_cnt >= 17 && (/_top/enemy_ship[0]$xx_p <= $xx_p + 8'sd6 && /_top/enemy_ship[0]$xx_p >= $xx_p - 8'sd6 && ~ /_top/enemy_ship[0]$destroyed) && (/_top/enemy_ship[0]$yy_p < $yy_p && /_top/enemy_ship[0]$yy_p <= 8'sd60 )) ? 2'd3 :
+                        (*cyc_cnt >= 17 && (/_top/enemy_ship[0]$xx_p <= $xx_p + 8'sd6 && /_top/enemy_ship[0]$xx_p >= $xx_p - 8'sd6 && ~ /_top/enemy_ship[0]$destroyed) && (/_top/enemy_ship[0]$yy_p < $yy_p && /_top/enemy_ship[0]$yy_p >= -8'sd60)) ? 2'd1 :
+                        (*cyc_cnt >= 17 && (/_top/enemy_ship[0]$yy_p <= $yy_p + 8'sd6 && /_top/enemy_ship[0]$yy_p >= $yy_p - 8'sd6 && ~ /_top/enemy_ship[0]$destroyed) && (/_top/enemy_ship[0]$xx_p > $xx_p && /_top/enemy_ship[0]$xx_p <= 8'sd60)) ? 2'd0 :
+                        (*cyc_cnt >= 17 && (/_top/enemy_ship[0]$yy_p <= $yy_p + 8'sd6 && /_top/enemy_ship[0]$yy_p >= $yy_p - 8'sd6 && ~ /_top/enemy_ship[0]$destroyed) && (/_top/enemy_ship[0]$xx_p < $xx_p && /_top/enemy_ship[0]$xx_p >= -8'sd60)) ? 2'd2 :
                         *cyc_cnt == 24 ? (2'd3) :
                         2'd0 :
                      #ship == 1 ?
@@ -210,9 +239,42 @@
       
       $attempt_fire =
                      #ship == 0 ?
+                     /*
                         *cyc_cnt == 14 ? (1'b1) :
                         *cyc_cnt == 15 ? (1'b1) :
-                        (*cyc_cnt >= 16 && (>>1$fire_dir != $fire_dir)) ? 1'b1 :
+                        *cyc_cnt == 16 ? (1'b1) :*/
+                        *cyc_cnt >= 80 ?
+                         ( (*cyc_cnt % 80) == 7  ?  1'd1 :
+                           (*cyc_cnt % 80) == 8  ?  1'd1 :
+                           (*cyc_cnt % 80) == 13  ?  1'd1 :
+                           (*cyc_cnt % 80) == 14  ?  1'd1 :
+                           (*cyc_cnt % 80) == 16  ?  1'd1 :
+                           (*cyc_cnt % 80) == 18  ?  1'd1 :
+                           (*cyc_cnt % 80) == 19  ?  1'd1 :
+                           (*cyc_cnt % 80) == 24  ?  1'd1 :
+                           (*cyc_cnt % 80) == 25  ?  1'd1 :
+                           (*cyc_cnt % 80) == 30  ?  1'd1 :
+                           (*cyc_cnt % 80) == 32  ?  1'd1 :
+                           (*cyc_cnt % 80) == 36  ?  1'd1 :
+                           (*cyc_cnt % 80) == 43  ?  1'd1 :
+                           (*cyc_cnt % 80) == 45  ?  1'd1 :
+                           (*cyc_cnt % 80) == 46  ?  1'd1 :
+                           (*cyc_cnt % 80) == 50  ?  1'd1 :
+                           (*cyc_cnt % 80) == 55  ?  1'd1 :
+                           (*cyc_cnt % 80) == 56  ?  1'd1 :
+                           (*cyc_cnt % 80) == 57  ?  1'd1 :
+                           (*cyc_cnt % 80) == 58  ?  1'd1 :
+                           (*cyc_cnt % 80) == 61  ?  1'd1 :
+                           (*cyc_cnt % 80) == 62  ?  1'd1 :
+                           (*cyc_cnt % 80) == 63  ?  1'd1 :
+                           (*cyc_cnt % 80) == 64  ?  1'd1 :
+                           (*cyc_cnt % 80) == 65  ?  1'd1 :
+                           (*cyc_cnt % 80) == 70  ?  1'd1 :
+                           (*cyc_cnt % 80) == 75  ?  1'd1 :
+                           (*cyc_cnt % 80) == 77  ?  1'd1 :
+                                                     1'd0
+                         ) :
+                        (*cyc_cnt >= 18 && (>>1$fire_dir != $fire_dir)) ? 1'b1 :
                         (>>1$attempt_fire == 1'b1) && (>>2$attempt_fire == 1'b0) ? 1'b1 :
                         1'b0 :
                      #ship == 1 ?
@@ -230,8 +292,13 @@
       $attempt_shield = #ship == 0 ?
                           (*cyc_cnt == 30) ? 1'b1 :
                           //(*cyc_cnt >= 4 && >>1$attempt_shield == 1'b0) ? 1'b1 :
-                          (*cyc_cnt >= 4 && *cyc_cnt <= 12) ? 1'b1 :
-                          (*cyc_cnt >= 19 && *cyc_cnt <= 29) ? 1'b1 :
+                          (*cyc_cnt >= 4 && *cyc_cnt <= 10) ? 1'b1 :
+                          (*cyc_cnt >= 20 && *cyc_cnt <= 29) ? 1'b1 :
+                          *cyc_cnt >= 80 ?
+                          ((*cyc_cnt % 80) == 7  ?  1'd1 :
+                           (*cyc_cnt % 80) == 8  ?  1'd1 :
+                                                    1'd0
+                          ) :
                           1'b0 :
                         #ship == 1 ?
                           *cyc_cnt >= 5 && (/_top/enemy_ship[0]$yy_p == $yy_p || /_top/enemy_ship[0]$xx_p == $xx_p) ? (1'b1):
@@ -249,6 +316,13 @@
 
       $attempt_cloak = #ship == 0 ?
                           (*cyc_cnt == 60) ? 1'b1 :
+                          *cyc_cnt >= 80 ?
+                          ((*cyc_cnt % 80) == 1  ?  1'd1 :
+                           (*cyc_cnt % 80) == 2  ?  1'd1 :
+                           (*cyc_cnt % 80) == 3  ?  1'd1 :
+                           (*cyc_cnt % 80) == 4  ?  1'd1 :
+                                                    1'd0
+                          ) :
                           (*cyc_cnt >= 30 && >>1$attempt_shield == 1'b1 && $xx_v >= 6'sd4) ? 1'b1 :
                           1'b0 :
                        #ship == 1 ?
@@ -322,6 +396,21 @@
    // Visualize IOs.
    m5+io_viz_only(/_top, _team_num)
 
+\TLV team_demo4(/_top)
+   /ship[*]
+      $xx_acc[7:0] =
+         *cyc_cnt == 2  ? -4'sd2 :
+         *cyc_cnt == 12 ?  4'sd2 :
+         4'sd0 ;
+      $yy_acc[7:0] =
+         *cyc_cnt == 2  ? -4'sd2 :
+         *cyc_cnt == 12 ?  4'sd2 :
+         4'sd0 ;
+
+\TLV team_demo4_viz(/_top, _team_num)
+   // Visualize IOs.
+   m5+io_viz_only(/_top, _team_num)
+
 // Compete!
 // This defines the competition to simulate (for development).
 // When this file is included as a library (for competition), this code is ignored.
@@ -344,7 +433,8 @@
    ///m5_team(sitting_duck, Sitting Duck)
    ///m5_team(demo1, Test 1)
    ///m5_team(demo2, Test 2)
-   m5_team(demo3, Demo 3)
+   ///m5_team(demo3, Demo 3)
+   m5_team(demo4, Demo 4)
    
    
    // Instantiate the Showdown environment.
