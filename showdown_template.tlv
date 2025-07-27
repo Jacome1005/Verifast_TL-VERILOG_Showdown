@@ -222,31 +222,46 @@
                         *cyc_cnt == 15 ? (2'd2) :
                         *cyc_cnt == 16 ? (2'd2) :
                         *cyc_cnt == 17 ? (2'd1) :
-                        *cyc_cnt >= 80 ?
-                        ((*cyc_cnt % 80) == 14  ?  2'd1 :
-                         (*cyc_cnt % 80) == 16  ?  2'd1 :
-                         (*cyc_cnt % 80) == 18  ?  2'd2 :
-                         (*cyc_cnt % 80) == 19  ?  2'd3 :
-                         (*cyc_cnt % 80) == 24  ?  2'd3 :
-                         (*cyc_cnt % 80) == 30  ?  2'd3 :
-                         (*cyc_cnt % 80) == 32  ?  2'd3 :
-                         (*cyc_cnt % 80) == 36  ?  2'd3 :
-                         (*cyc_cnt % 80) == 43  ?  2'd3 :
-                         (*cyc_cnt % 80) == 45  ?  2'd2 :
-                         (*cyc_cnt % 80) == 46  ?  2'd3 :
-                         (*cyc_cnt % 80) == 50  ?  2'd3 :
-                         (*cyc_cnt % 80) == 56  ?  2'd2 :
-                         (*cyc_cnt % 80) == 57  ?  2'd1 :
-                         (*cyc_cnt % 80) == 58  ?  2'd3 :
-                         (*cyc_cnt % 80) == 61  ?  2'd1 :
-                         (*cyc_cnt % 80) == 62  ?  2'd2 :
-                         (*cyc_cnt % 80) == 63  ?  2'd3 :
-                         (*cyc_cnt % 80) == 65  ?  2'd2 :
-                         (*cyc_cnt % 80) == 70  ?  2'd1 :
-                         (*cyc_cnt % 80) == 75  ?  2'd3 :
-                         (*cyc_cnt % 80) == 77  ?  2'd3 :
-                                                   2'd0
-                        ) :
+                        (*cyc_cnt >= 160 && *cyc_cnt < 240 || *cyc_cnt >= 320 && *cyc_cnt < 400 || *cyc_cnt >= 480) ?
+                      ( (*cyc_cnt % 80) == 0  ?  2'd3 :
+                        (*cyc_cnt % 80) == 5  ?  2'd0 :
+                        (*cyc_cnt % 80) == 6  ?  2'd0 :
+                        (*cyc_cnt % 80) == 7  ?  2'd3 :
+                        (*cyc_cnt % 80) == 21  ?  2'd1 :
+                        (*cyc_cnt % 80) == 22  ?  2'd1 :
+                        (*cyc_cnt % 80) == 38  ?  2'd1 :
+                        (*cyc_cnt % 80) == 39  ?  2'd2 :
+                        (*cyc_cnt % 80) == 52  ?  2'd2 :
+                        (*cyc_cnt % 80) == 55  ?  2'd3 :
+                        (*cyc_cnt % 80) == 74  ?  2'd3 :
+                        (*cyc_cnt % 80) == 79  ?  2'd3 :
+                                                 2'd0
+                         ) :
+                        (*cyc_cnt >= 80 && *cyc_cnt < 160 || *cyc_cnt >= 240 && *cyc_cnt < 320 || *cyc_cnt >= 400 && *cyc_cnt < 480) ?
+                         ((*cyc_cnt % 80) == 14  ?  2'd1 :
+                          (*cyc_cnt % 80) == 16  ?  2'd1 :
+                          (*cyc_cnt % 80) == 18  ?  2'd2 :
+                          (*cyc_cnt % 80) == 19  ?  2'd3 :
+                          (*cyc_cnt % 80) == 24  ?  2'd3 :
+                          (*cyc_cnt % 80) == 30  ?  2'd3 :
+                          (*cyc_cnt % 80) == 32  ?  2'd3 :
+                          (*cyc_cnt % 80) == 36  ?  2'd3 :
+                          (*cyc_cnt % 80) == 43  ?  2'd3 :
+                          (*cyc_cnt % 80) == 45  ?  2'd2 :
+                          (*cyc_cnt % 80) == 46  ?  2'd3 :
+                          (*cyc_cnt % 80) == 50  ?  2'd3 :
+                          (*cyc_cnt % 80) == 56  ?  2'd2 :
+                          (*cyc_cnt % 80) == 57  ?  2'd1 :
+                          (*cyc_cnt % 80) == 58  ?  2'd3 :
+                          (*cyc_cnt % 80) == 61  ?  2'd1 :
+                          (*cyc_cnt % 80) == 62  ?  2'd2 :
+                          (*cyc_cnt % 80) == 63  ?  2'd3 :
+                          (*cyc_cnt % 80) == 65  ?  2'd2 :
+                          (*cyc_cnt % 80) == 70  ?  2'd1 :
+                          (*cyc_cnt % 80) == 75  ?  2'd3 :
+                          (*cyc_cnt % 80) == 77  ?  2'd3 :
+                                                    2'd0
+                         ) :
                         //en arreglo -> jacobo
                         //(*cyc_cnt >= 16 && */(*enemy_ship[*]$xx_p <= $xx_p + 8'sd5 && *enemy_ship[*]$xx_p >= $xx_p - 8'sd5 /*&& $enemy_destroyed == 1'b0*/) && (*enemy_ship[*]$yy_p >= $yy_p && *enemy_ship[*]$yy_p <= 8'sd60 )) ? 2'd0 :
                         (-8'sd60 <= $xx_p && $xx_p <= -8'sd1) ? 2'd3 :
@@ -323,35 +338,36 @@
                         *cyc_cnt == 16 ? (1'b1) :
                         *cyc_cnt == 17 ? (1'b1) :
                         *cyc_cnt >= 80 ?
-                         ( (*cyc_cnt % 80) == 7  ?  1'd1 :
-                           (*cyc_cnt % 80) == 8  ?  1'd1 :
-                           (*cyc_cnt % 80) == 13  ?  1'd1 :
-                           (*cyc_cnt % 80) == 14  ?  1'd1 :
-                           (*cyc_cnt % 80) == 16  ?  1'd1 :
-                           (*cyc_cnt % 80) == 18  ?  1'd1 :
-                           (*cyc_cnt % 80) == 19  ?  1'd1 :
-                           (*cyc_cnt % 80) == 24  ?  1'd1 :
-                           (*cyc_cnt % 80) == 25  ?  1'd1 :
-                           (*cyc_cnt % 80) == 30  ?  1'd1 :
-                           (*cyc_cnt % 80) == 32  ?  1'd1 :
-                           (*cyc_cnt % 80) == 36  ?  1'd1 :
-                           (*cyc_cnt % 80) == 43  ?  1'd1 :
-                           (*cyc_cnt % 80) == 45  ?  1'd1 :
-                           (*cyc_cnt % 80) == 46  ?  1'd1 :
-                           (*cyc_cnt % 80) == 50  ?  1'd1 :
-                           (*cyc_cnt % 80) == 55  ?  1'd1 :
-                           (*cyc_cnt % 80) == 56  ?  1'd1 :
-                           (*cyc_cnt % 80) == 57  ?  1'd1 :
-                           (*cyc_cnt % 80) == 58  ?  1'd1 :
-                           (*cyc_cnt % 80) == 61  ?  1'd1 :
-                           (*cyc_cnt % 80) == 62  ?  1'd1 :
-                           (*cyc_cnt % 80) == 63  ?  1'd1 :
-                           (*cyc_cnt % 80) == 64  ?  1'd1 :
-                           (*cyc_cnt % 80) == 65  ?  1'd1 :
-                           (*cyc_cnt % 80) == 70  ?  1'd1 :
-                           (*cyc_cnt % 80) == 75  ?  1'd1 :
-                           (*cyc_cnt % 80) == 77  ?  1'd1 :
-                                                     1'd0
+                         ( (*cyc_cnt % 80) == 7  ?  1'b1 :
+                           (*cyc_cnt % 80) == 8  ?  1'b1 :
+                           (*cyc_cnt % 80) == 13  ?  1'b1 :
+                           (*cyc_cnt % 80) == 14  ?  1'b1 :
+                           (*cyc_cnt % 80) == 16  ?  1'b1 :
+                           (*cyc_cnt % 80) == 18  ?  1'b1 :
+                           (*cyc_cnt % 80) == 19  ?  1'b1 :
+                           (*cyc_cnt % 80) == 24  ?  1'b1 :
+                           (*cyc_cnt % 80) == 25  ?  1'b1 :
+                           (*cyc_cnt % 80) == 30  ?  1'b1 :
+                           (*cyc_cnt % 80) == 32  ?  1'b1 :
+                           (*cyc_cnt % 80) == 36  ?  1'b1 :
+                           (*cyc_cnt % 80) == 43  ?  1'b1 :
+                           (*cyc_cnt % 80) == 45  ?  1'b1 :
+                           (*cyc_cnt % 80) == 46  ?  1'b1 :
+                           (*cyc_cnt % 80) == 50  ?  1'b1 :
+                           (*cyc_cnt % 80) == 55  ?  1'b1 :
+                           (*cyc_cnt % 80) == 56  ?  1'b1 :
+                           (*cyc_cnt % 80) == 57  ?  1'b1 :
+                           (*cyc_cnt % 80) == 58  ?  1'b1 :
+                           (*cyc_cnt % 80) == 61  ?  1'b1 :
+                           (*cyc_cnt % 80) == 62  ?  1'b1 :
+                           (*cyc_cnt % 80) == 63  ?  1'b1 :
+                           (*cyc_cnt % 80) == 64  ?  1'b1 :
+                           (*cyc_cnt % 80) == 65  ?  1'b1 :
+                           (*cyc_cnt % 80) == 70  ?  1'b1 :
+                           (*cyc_cnt % 80) == 75  ?  1'b1 :
+                           (*cyc_cnt % 80) == 77  ?  1'b1 :
+                                                     ($energy > 50 && (>>1$fire_dir != $fire_dir)) ? 1'b1 :
+                                                     1'b0
                          ) :
                         (*cyc_cnt >= 18 && (>>1$fire_dir != $fire_dir)) ? 1'b1 :
                         (>>1$attempt_fire == 1'b1) && (>>2$attempt_fire == 1'b0) ? 1'b1 :
@@ -447,7 +463,8 @@
                           ((*cyc_cnt % 80) == 9  ?  1'd1 :
                            (*cyc_cnt % 80) == 24  ?  1'd1 :
                            (*cyc_cnt % 80) == 39  ?  1'd1 :
-                                                    1'd0
+                                                    ($energy > 70 && (>>1$attempt_cloak != 1'b1 && >>2$attempt_cloak != 1'b1)) ? 1'b1 :
+                                                     1'b0
                           ) :
                           //(*cyc_cnt >= 30 && >>1$attempt_shield == 1'b1 && $xx_v >= 6'sd4) ? 1'b1 :
                           1'b0 :
@@ -509,86 +526,7 @@
          ];
       },
 
-//BORRAR
-\TLV team_demo3(/_top)
-   /ship[*]
-      $xx_acc[7:0] =
-         #ship == 0 ?
-            (8'sd36 <= $xx_p && $xx_p <=  8'sd64) ? -4'sd4 :
-            (-8'sd64 <= $xx_p && $xx_p <=  -8'sd36) ? 4'sd4 :
-            4'sd0 :
-         #ship == 1 ?
-            (8'sd36 <= $xx_p && $xx_p <=  8'sd64) ? -4'sd4 :
-            (-8'sd64 <= $xx_p && $xx_p <=  -8'sd36) ? 4'sd4 :
-            4'sd0 :
-         #ship == 2 ?
-            *cyc_cnt == 2 ? 4'sd4 :
-            (8'sd48 <= $xx_p && $xx_p <=  8'sd64) ? -4'sd4 :
-            (-8'sd64 <= $xx_p && $xx_p <=  -8'sd48) ? 4'sd4 :
-            4'sd0 :
-         4'sd0 ;
-      $fire_dir[1:0] = 2'd3;
-      $attempt_fire = 1'b1;
-
-\TLV team_demo3_viz(/_top, _team_num)
-   // Visualize IOs.
-   m5+io_viz_only(/_top, _team_num)
-
-\TLV team_demo4(/_top)
-   /ship[*]
-      $xx_acc[7:0] =
-         *cyc_cnt == 2  ? -4'sd2 :
-         *cyc_cnt == 12 ?  4'sd2 :
-         4'sd0 ;
-      $yy_acc[7:0] =
-         *cyc_cnt == 2  ? -4'sd2 :
-         *cyc_cnt == 12 ?  4'sd2 :
-         4'sd0 ;
-
-\TLV team_demo4_viz(/_top, _team_num)
-   // Visualize IOs.
-   m5+io_viz_only(/_top, _team_num)
-   
-   
-\TLV team_demo5(/_top)
-   /ship[*]
-      $xx_acc[7:0] =
-         *cyc_cnt == 2  ?  4'sd2 :
-         *cyc_cnt == 12 ? -4'sd2 :
-         4'sd0 ;
-      $yy_acc[7:0] =
-         *cyc_cnt == 2  ?  4'sd2 :
-         *cyc_cnt == 12 ? -4'sd2 :
-         4'sd0 ;
-
-\TLV team_demo5_viz(/_top, _team_num)
-   // Visualize IOs.
-   m5+io_viz_only(/_top, _team_num)
-
-\TLV team_demo6(/_top)
-   /ship[*]
-      $yy_acc[7:0] =
-         #ship == 0 ?
-            (8'sd36 <= $yy_p && $yy_p <=  8'sd64) ? -4'sd4 :
-            (-8'sd64 <= $yy_p && $yy_p <=  -8'sd36) ? 4'sd4 :
-            4'sd0 :
-         #ship == 1 ?
-         *cyc_cnt == 2 ? 4'sd4 :
-            (8'sd48 <= $yy_p && $yy_p <=  8'sd64) ? -4'sd4 :
-            (-8'sd64 <= $yy_p && $yy_p <=  -8'sd48) ? 4'sd4 :
-            4'sd0 :
-         #ship == 2 ?
-            (8'sd36 <= $yy_p && $yy_p <=  8'sd64) ? -4'sd4 :
-            (-8'sd64 <= $yy_p && $yy_p <=  -8'sd36) ? 4'sd4 :
-            4'sd0 :
-         4'sd0 ;
-      $fire_dir[1:0] = 2'd0;
-      $attempt_fire = 1'b1;
-
-\TLV team_demo6_viz(/_top, _team_num)
-   // Visualize IOs.
-   m5+io_viz_only(/_top, _team_num)
-   
+      
 // Compete!
 // This defines the competition to simulate (for development).
 // When this file is included as a library (for competition), this code is ignored.
