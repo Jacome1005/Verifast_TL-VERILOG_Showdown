@@ -56,39 +56,57 @@
                    #ship == 0 ?
                       ((8'sd24 <= $xx_p && $xx_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd2 :
                       ((-8'sd60 <= $xx_p && $xx_p <=  -8'sd24) && *cyc_cnt <= 29) ? 4'sd2 :
+                      *cyc_cnt == 30  ?  4'sd4 :
+                      *cyc_cnt == 31  ?  4'sd4 :
+                      *cyc_cnt == 42  ? -4'sd4 :
+                      *cyc_cnt == 43  ? -4'sd4 :
+                      *cyc_cnt == 49  ? -4'sd4 :
+                      *cyc_cnt == 50  ? -4'sd4 :
+                      *cyc_cnt == 61  ?  4'sd4 :
+                      *cyc_cnt == 62  ?  4'sd4 :
+                      (*cyc_cnt >= 160 && *cyc_cnt < 240 || *cyc_cnt >= 320 && *cyc_cnt > 400 || *cyc_cnt >= 480) ?
+                       ((*cyc_cnt % 80) == 0  ? -4'sd4 :
+                        (*cyc_cnt % 80) == 5  ?  4'sd4 :
+                        (*cyc_cnt % 80) == 21  ?  4'sd4 :
+                        (*cyc_cnt % 80) == 22  ?  4'sd4 :
+                        (*cyc_cnt % 80) == 36  ? -4'sd4 :
+                        (*cyc_cnt % 80) == 37  ? -4'sd4 :
+                        (*cyc_cnt % 80) == 55  ? -4'sd4 :
+                        (*cyc_cnt % 80) == 56  ? -4'sd4 :
+                        (*cyc_cnt % 80) == 69  ?  4'sd4 :
+                        (*cyc_cnt % 80) == 72  ?  4'sd4 :
+                        (*cyc_cnt % 80) == 74  ?  4'sd4 :
+                        (*cyc_cnt % 80) == 79  ? -4'sd4 :
+                                                  4'sd0
+                         ) :
+                      (*cyc_cnt >= 80 && *cyc_cnt < 160 || *cyc_cnt >= 240 && *cyc_cnt < 320 || *cyc_cnt >= 400 && *cyc_cnt < 480) ?
+                         ((*cyc_cnt % 80) == 12  ?  4'sd4 :
+                          (*cyc_cnt % 80) == 13  ?  4'sd4 :
+                          (*cyc_cnt % 80) == 17  ? -4'sd4 :
+                          (*cyc_cnt % 80) == 18  ? -4'sd4 :
+                          (*cyc_cnt % 80) == 19  ? -4'sd4 :
+                          (*cyc_cnt % 80) == 24  ?  4'sd4 :
+                          (*cyc_cnt % 80) == 32  ?  4'sd1 :
+                          (*cyc_cnt % 80) == 33  ?  4'sd4 :
+                          (*cyc_cnt % 80) == 44  ? -4'sd4 :
+                          (*cyc_cnt % 80) == 45  ? -4'sd1 :
+                          (*cyc_cnt % 80) == 47  ? -4'sd4 :
+                          (*cyc_cnt % 80) == 56  ?  4'sd4 :
+                          (*cyc_cnt % 80) == 57  ?  4'sd4 :
+                          (*cyc_cnt % 80) == 58  ?  4'sd4 :
+                          (*cyc_cnt % 80) == 61  ? -4'sd4 :
+                          (*cyc_cnt % 80) == 62  ? -4'sd4 :
+                          (*cyc_cnt % 80) == 66  ? -4'sd4 :
+                          (*cyc_cnt % 80) == 67  ? -4'sd2 :
+                          (*cyc_cnt % 80) == 78  ?  4'sd3 :
+                          (*cyc_cnt % 80) == 79  ?  4'sd3 :
+                                                    4'sd0//-$xx_v
+                          ) :
+                   4'sd0 :
+                   /*#ship == 0 ?
                       //((8'sd24 <= $xx_p && $xx_p <=  8'sd60) && *cyc_cnt <= 60) ? -4'sd4 :
                       //((-8'sd60 <= $xx_p && $xx_p <=  -8'sd24) && *cyc_cnt <= 60) ? 4'sd2 :
                       //(*cyc_cnt >= 60 && $xx_v != 6'b0 && ~(-8'sd24 >= $xx_p && $xx_p <= 8'sd24)) ? -4'sd2 :
-                      *cyc_cnt <= 80 ? 4'd0 :
-                         ( (*cyc_cnt % 80) == 12  ?  4'sd4 :
-                           (*cyc_cnt % 80) == 13  ?  4'sd4 :
-                           (*cyc_cnt % 80) == 17  ? -4'sd4 :
-                           (*cyc_cnt % 80) == 18  ? -4'sd4 :
-                           (*cyc_cnt % 80) == 19  ? -4'sd4 :
-                           (*cyc_cnt % 80) == 24  ?  4'sd4 :
-                           (*cyc_cnt % 80) == 32  ?  4'sd1 :
-                           (*cyc_cnt % 80) == 33  ?  4'sd4 :
-                           (*cyc_cnt % 80) == 44  ? -4'sd4 :
-                           (*cyc_cnt % 80) == 45  ? -4'sd1 :
-                           (*cyc_cnt % 80) == 47  ? -4'sd4 :
-                           (*cyc_cnt % 80) == 56  ?  4'sd4 :
-                           (*cyc_cnt % 80) == 57  ?  4'sd4 :
-                           (*cyc_cnt % 80) == 58  ?  4'sd4 :
-                           (*cyc_cnt % 80) == 61  ? -4'sd4 :
-                           (*cyc_cnt % 80) == 62  ? -4'sd4 :
-                           (*cyc_cnt % 80) == 66  ? -4'sd4 :
-                           (*cyc_cnt % 80) == 67  ? -4'sd2 :
-                           (*cyc_cnt % 80) == 78  ?  4'sd3 :
-                           (*cyc_cnt % 80) == 79  ?  4'sd3 :
-                                                   4'd0//-$xx_v
-                         ) :
-                   /*#ship == 0 ?
-                      *cyc_cnt == 2 ? ($xx_p >  8'sd40)  ? (4'sd7)  :
-                                      ($xx_p < -8'sd40)  ? (-4'sd7) :
-                                      4'sd0 :
-                      *cyc_cnt == 30 ?($xx_p >  8'sd40)  ? (4'sd2)  :
-                                      ($xx_p < -8'sd40)  ? (-4'sd2) :
-                                      4'sd0 :
                       4'sd0 :*/
                    #ship == 1 ?
                       *cyc_cnt == 50 ? 4'sd4:     //2 izq a der
@@ -103,8 +121,8 @@
                       *cyc_cnt == 540 ? -4'sd4:    //10 centro
                       4'sd0 :
                    #ship == 2 ?
-                      ((8'sd24 <= $xx_p && $xx_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd2 :
-                      ((-8'sd60 <= $xx_p && $xx_p <=  -8'sd24) && *cyc_cnt <= 29) ? 4'sd2 :
+                      ((8'sd24 <= $xx_p && $xx_p <=  8'sd60) && *cyc_cnt <= 54) ? -4'sd2 :
+                      ((-8'sd60 <= $xx_p && $xx_p <=  -8'sd24) && *cyc_cnt <= 54) ? 4'sd2 :
                       (*cyc_cnt[2] == 1'b0) ? 4'sd2 :
                       -4'sd2 :
                    4'sd0 ;
@@ -113,7 +131,30 @@
                    #ship == 0 ?
                       ((8'sd24 <= $yy_p && $yy_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd2 :
                       ((-8'sd60 <= $yy_p && $yy_p <=  -8'sd24) && *cyc_cnt <= 29) ? 4'sd2 :
-                      *cyc_cnt >= 80 ?
+                      *cyc_cnt == 30  ?  4'sd4 :
+                      *cyc_cnt == 31  ?  4'sd4 :
+                      *cyc_cnt == 42  ? -4'sd4 :
+                      *cyc_cnt == 43  ? -4'sd4 :
+                      *cyc_cnt == 49  ? -4'sd4 :
+                      *cyc_cnt == 50  ? -4'sd4 :
+                      *cyc_cnt == 61  ?  4'sd4 :
+                      *cyc_cnt == 62  ?  4'sd4 :
+                      (*cyc_cnt >= 160 && *cyc_cnt < 240 || *cyc_cnt >= 320 && *cyc_cnt > 400 || *cyc_cnt >= 560) ?
+                      ( (*cyc_cnt % 80) == 0  ? -4'sd4 :
+                        (*cyc_cnt % 80) == 5  ?  4'sd4 :
+                        (*cyc_cnt % 80) == 6  ?  4'sd4 :
+                        (*cyc_cnt % 80) == 7  ?  4'sd4 :
+                        (*cyc_cnt % 80) == 21  ? -4'sd4 :
+                        (*cyc_cnt % 80) == 22  ? -4'sd4 :
+                        (*cyc_cnt % 80) == 38  ? -4'sd4 :
+                        (*cyc_cnt % 80) == 39  ? -4'sd4 :
+                        (*cyc_cnt % 80) == 52  ?  4'sd4 :
+                        (*cyc_cnt % 80) == 55  ?  4'sd4 :
+                        (*cyc_cnt % 80) == 74  ?  4'sd4 :
+                        (*cyc_cnt % 80) == 79  ? -4'sd4 :
+                                                 4'sd0
+                         ) :
+                      (*cyc_cnt >= 80 && *cyc_cnt < 160 || *cyc_cnt >= 240 && *cyc_cnt < 320 || *cyc_cnt >= 480 && *cyc_cnt < 560) ?
                          ( (*cyc_cnt % 80) == 0  ?  4'sd4 :
                            (*cyc_cnt % 80) == 1  ?  4'sd2 :
                            (*cyc_cnt % 80) == 7  ?  4'sd2 :
@@ -196,6 +237,7 @@
                         ) :
                         //en arreglo -> jacobo
                         //(*cyc_cnt >= 16 && */(*enemy_ship[*]$xx_p <= $xx_p + 8'sd5 && *enemy_ship[*]$xx_p >= $xx_p - 8'sd5 /*&& $enemy_destroyed == 1'b0*/) && (*enemy_ship[*]$yy_p >= $yy_p && *enemy_ship[*]$yy_p <= 8'sd60 )) ? 2'd0 :
+                        (-8'sd60 <= $xx_p && $xx_p <= -8'sd1) ? 2'd3 :
                         /_top/enemy_ship[0]$xx_p == $xx_p ? 2'd3 :
                         /_top/enemy_ship[1]$xx_p == $xx_p ? 2'd3 :
                         /_top/enemy_ship[2]$xx_p == $xx_p ? 2'd3 :
@@ -266,10 +308,9 @@
       
       $attempt_fire =
                      #ship == 0 ?
-                     /*
                         *cyc_cnt == 14 ? (1'b1) :
                         *cyc_cnt == 15 ? (1'b1) :
-                        *cyc_cnt == 16 ? (1'b1) :*/
+                        *cyc_cnt == 16 ? (1'b1) :
                         *cyc_cnt >= 80 ?
                          ( (*cyc_cnt % 80) == 7  ?  1'd1 :
                            (*cyc_cnt % 80) == 8  ?  1'd1 :
@@ -329,10 +370,14 @@
                           (*cyc_cnt == 30) ? 1'b1 :
                           //(*cyc_cnt >= 4 && >>1$attempt_shield == 1'b0) ? 1'b1 :
                           (*cyc_cnt >= 4 && *cyc_cnt <= 10) ? 1'b1 :
-                          (*cyc_cnt >= 20 && *cyc_cnt <= 29) ? 1'b1 :
+                          (*cyc_cnt >= 20 && *cyc_cnt <= 27) ? 1'b1 :
+                          (*cyc_cnt >= 33 && *cyc_cnt <= 35) ? 1'b1 :
                           (*cyc_cnt >= 38 && *cyc_cnt <= 43) ? 1'b1 :
+                          (*cyc_cnt >= 52 && *cyc_cnt <= 52) ? 1'b1 :
+                          (*cyc_cnt >= 55 && *cyc_cnt <= 55) ? 1'b1 :
                           (*cyc_cnt >= 61 && *cyc_cnt <= 64) ? 1'b1 :
-                          (*cyc_cnt >= 66 && *cyc_cnt <= 69) ? 1'b1 :
+                          (*cyc_cnt >= 66 && *cyc_cnt <= 66) ? 1'b1 :
+                          (*cyc_cnt >= 68 && *cyc_cnt <= 69) ? 1'b1 :
                           (*cyc_cnt >= 73 && *cyc_cnt <= 75) ? 1'b1 :
                           *cyc_cnt >= 80 ?
                           ((*cyc_cnt % 80) == 0  ?  1'd1 :
@@ -341,10 +386,11 @@
                            (*cyc_cnt % 80) == 4  ?  1'd1 :
                            (*cyc_cnt % 80) == 7  ?  1'd1 :
                            (*cyc_cnt % 80) == 8  ?  1'd1 :
+                           (*cyc_cnt % 80) == 18  ?  1'd1 :
                            (*cyc_cnt % 80) == 32  ?  1'd1 :
                            (*cyc_cnt % 80) == 33  ?  1'd1 :
-                           (*cyc_cnt % 80) == 47  ?  1'd1 :
                            (*cyc_cnt % 80) == 48  ?  1'd1 :
+                           (*cyc_cnt % 80) == 49  ?  1'd1 :
                            (*cyc_cnt % 80) == 64  ?  1'd1 :
                            (*cyc_cnt % 80) == 65  ?  1'd1 :
                                                     1'd0
@@ -368,12 +414,11 @@
                           (*cyc_cnt == 60) ? 1'b1 :
                           *cyc_cnt >= 80 ?
                           ((*cyc_cnt % 80) == 9  ?  1'd1 :
-                           (*cyc_cnt % 80) == 17  ?  1'd1 :
                            (*cyc_cnt % 80) == 24  ?  1'd1 :
                            (*cyc_cnt % 80) == 39  ?  1'd1 :
                                                     1'd0
                           ) :
-                          (*cyc_cnt >= 30 && >>1$attempt_shield == 1'b1 && $xx_v >= 6'sd4) ? 1'b1 :
+                          //(*cyc_cnt >= 30 && >>1$attempt_shield == 1'b1 && $xx_v >= 6'sd4) ? 1'b1 :
                           1'b0 :
                        #ship == 1 ?
                           *cyc_cnt <= 5 ? (1'b1):
@@ -493,8 +538,8 @@
    ///m5_team(sitting_duck, Sitting Duck)
    ///m5_team(demo1, Test 1)
    ///m5_team(demo2, Test 2)
-   m5_team(demo3, Demo 3)
-   ///m5_team(demo4, Demo 4)
+   ///m5_team(demo3, Demo 3)
+   m5_team(demo4, Demo 4)
    
    
    // Instantiate the Showdown environment.
