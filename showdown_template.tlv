@@ -64,7 +64,7 @@
                       *cyc_cnt == 50  ? -4'sd4 :
                       *cyc_cnt == 61  ?  4'sd4 :
                       *cyc_cnt == 62  ?  4'sd4 :
-                      (*cyc_cnt >= 160 && *cyc_cnt < 240 || *cyc_cnt >= 320 && *cyc_cnt > 400 || *cyc_cnt >= 480) ?
+                      (*cyc_cnt >= 160 && *cyc_cnt < 240 || *cyc_cnt >= 320 && *cyc_cnt < 400 || *cyc_cnt >= 480) ?
                        ((*cyc_cnt % 80) == 0  ? -4'sd4 :
                         (*cyc_cnt % 80) == 5  ?  4'sd4 :
                         (*cyc_cnt % 80) == 21  ?  4'sd4 :
@@ -140,7 +140,7 @@
                       *cyc_cnt == 50  ? -4'sd4 :
                       *cyc_cnt == 61  ?  4'sd4 :
                       *cyc_cnt == 62  ?  4'sd4 :
-                      (*cyc_cnt >= 160 && *cyc_cnt < 240 || *cyc_cnt >= 320 && *cyc_cnt > 400 || *cyc_cnt >= 560) ?
+                      (*cyc_cnt >= 160 && *cyc_cnt < 240 || *cyc_cnt >= 320 && *cyc_cnt < 400 || *cyc_cnt >= 480) ?
                       ( (*cyc_cnt % 80) == 0  ? -4'sd4 :
                         (*cyc_cnt % 80) == 5  ?  4'sd4 :
                         (*cyc_cnt % 80) == 6  ?  4'sd4 :
@@ -155,7 +155,7 @@
                         (*cyc_cnt % 80) == 79  ? -4'sd4 :
                                                  4'sd0
                          ) :
-                      (*cyc_cnt >= 80 && *cyc_cnt < 160 || *cyc_cnt >= 240 && *cyc_cnt < 320 || *cyc_cnt >= 480 && *cyc_cnt < 560) ?
+                      (*cyc_cnt >= 80 && *cyc_cnt < 160 || *cyc_cnt >= 240 && *cyc_cnt < 320 || *cyc_cnt >= 400 && *cyc_cnt < 480) ?
                          ( (*cyc_cnt % 80) == 0  ?  4'sd4 :
                            (*cyc_cnt % 80) == 1  ?  4'sd2 :
                            (*cyc_cnt % 80) == 7  ?  4'sd2 :
@@ -210,6 +210,8 @@
                      *cyc_cnt == 462 ? -4'sd2 : 
                      *cyc_cnt == 510 ?  4'sd3 :  
                      *cyc_cnt == 528 ? -4'sd3 :   
+                     (8'sd52 <= $yy_p && $yy_p <=  8'sd60) ? -4'sd4 :
+                     (-8'sd60 <= $yy_p && $yy_p <= -8'sd52) ? 4'sd4 :
                      4'sd0 :
                   4'sd0;
  
@@ -316,9 +318,6 @@
                          2'd0 :
                       2'd0 ;
 
-
-      
-      
       $attempt_fire =
                      #ship == 0 ?
                         *cyc_cnt == 14 ? (1'b1) :
