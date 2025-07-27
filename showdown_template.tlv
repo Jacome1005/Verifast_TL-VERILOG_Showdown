@@ -211,6 +211,7 @@
                         *cyc_cnt == 14 ? (2'd1) :
                         *cyc_cnt == 15 ? (2'd2) :
                         *cyc_cnt == 16 ? (2'd2) :
+                        *cyc_cnt == 17 ? (2'd1) :
                         *cyc_cnt >= 80 ?
                         ((*cyc_cnt % 80) == 14  ?  2'd1 :
                          (*cyc_cnt % 80) == 16  ?  2'd1 :
@@ -252,9 +253,9 @@
                         *cyc_cnt == 24 ? (2'd3) :
                         2'd0 :
                      #ship == 1 ?
-                        *cyc_cnt > 4 && *cyc_cnt < 25  && (!/_top/enemy_ship[0]$destroyed && \$signed(/_top/enemy_ship[2]$yy_p) >= -40) ? 2'd3:
-                        *cyc_cnt > 4 && *cyc_cnt < 25  && (!/_top/enemy_ship[1]$destroyed && \$signed(/_top/enemy_ship[2]$yy_p) >= -40) ? 2'd3:
-                        *cyc_cnt > 4 && *cyc_cnt < 25  && (!/_top/enemy_ship[2]$destroyed && \$signed(/_top/enemy_ship[1]$yy_p) >= -40) ? 2'd3:
+                        *cyc_cnt > 4 && *cyc_cnt < 25  && (!/_top/enemy_ship[0]$destroyed && \$signed(/_top/enemy_ship[2]$yy_p) <= -40) ? 2'd3:
+                        *cyc_cnt > 4 && *cyc_cnt < 25  && (!/_top/enemy_ship[1]$destroyed && \$signed(/_top/enemy_ship[2]$yy_p) <= -40) ? 2'd3:
+                        *cyc_cnt > 4 && *cyc_cnt < 25  && (!/_top/enemy_ship[2]$destroyed && \$signed(/_top/enemy_ship[1]$yy_p) <= -40) ? 2'd3:
                         *cyc_cnt >= 40 && *cyc_cnt < 100 ? 2'd3:     //1 UP
                         *cyc_cnt >= 100 && *cyc_cnt < 190 ? 2'd2:    //2 LEFT
                         *cyc_cnt >= 190 && *cyc_cnt < 250? 2'd1:    //3 DOWN
@@ -315,6 +316,7 @@
                         *cyc_cnt == 14 ? (1'b1) :
                         *cyc_cnt == 15 ? (1'b1) :
                         *cyc_cnt == 16 ? (1'b1) :
+                        *cyc_cnt == 17 ? (1'b1) :
                         *cyc_cnt >= 80 ?
                          ( (*cyc_cnt % 80) == 7  ?  1'd1 :
                            (*cyc_cnt % 80) == 8  ?  1'd1 :
@@ -524,7 +526,47 @@
 \TLV team_demo4_viz(/_top, _team_num)
    // Visualize IOs.
    m5+io_viz_only(/_top, _team_num)
+   
+   
+\TLV team_demo5(/_top)
+   /ship[*]
+      $xx_acc[7:0] =
+         *cyc_cnt == 2  ?  4'sd2 :
+         *cyc_cnt == 12 ? -4'sd2 :
+         4'sd0 ;
+      $yy_acc[7:0] =
+         *cyc_cnt == 2  ?  4'sd2 :
+         *cyc_cnt == 12 ? -4'sd2 :
+         4'sd0 ;
 
+\TLV team_demo5_viz(/_top, _team_num)
+   // Visualize IOs.
+   m5+io_viz_only(/_top, _team_num)
+
+\TLV team_demo6(/_top)
+   /ship[*]
+      $yy_acc[7:0] =
+         #ship == 0 ?
+            (8'sd36 <= $yy_p && $yy_p <=  8'sd64) ? -4'sd4 :
+            (-8'sd64 <= $yy_p && $yy_p <=  -8'sd36) ? 4'sd4 :
+            4'sd0 :
+         #ship == 1 ?
+         *cyc_cnt == 2 ? 4'sd4 :
+            (8'sd48 <= $yy_p && $yy_p <=  8'sd64) ? -4'sd4 :
+            (-8'sd64 <= $yy_p && $yy_p <=  -8'sd48) ? 4'sd4 :
+            4'sd0 :
+         #ship == 2 ?
+            (8'sd36 <= $yy_p && $yy_p <=  8'sd64) ? -4'sd4 :
+            (-8'sd64 <= $yy_p && $yy_p <=  -8'sd36) ? 4'sd4 :
+            4'sd0 :
+         4'sd0 ;
+      $fire_dir[1:0] = 2'd0;
+      $attempt_fire = 1'b1;
+
+\TLV team_demo6_viz(/_top, _team_num)
+   // Visualize IOs.
+   m5+io_viz_only(/_top, _team_num)
+   
 // Compete!
 // This defines the competition to simulate (for development).
 // When this file is included as a library (for competition), this code is ignored.
@@ -547,9 +589,10 @@
    ///m5_team(sitting_duck, Sitting Duck)
    ///m5_team(demo1, Test 1)
    ///m5_team(demo2, Test 2)
-   ///m5_team(demo3, Demo 3)
-   m5_team(demo4, Demo 4)
-   
+   m5_team(demo3, Demo 3)
+   ///m5_team(demo4, Demo 4)
+   ///m5_team(demo5, Demo 5)
+   ///m5_team(demo6, Demo 6)
    
    // Instantiate the Showdown environment.
    m5+showdown(/top, /secret)
