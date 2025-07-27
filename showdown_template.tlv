@@ -103,10 +103,10 @@
                       *cyc_cnt == 540 ? -4'sd4:    //10 centro
                       4'sd0 :
                    #ship == 2 ?
-                      ((8'sd24 <= $xx_p && $xx_p <=  8'sd60) && *cyc_cnt <= 29) ? -4'sd2 :
-                      ((-8'sd60 <= $xx_p && $xx_p <=  -8'sd24) && *cyc_cnt <= 29) ? 4'sd2 :
+                      ((8'sd24 <= $xx_p && $xx_p <=  8'sd60) && *cyc_cnt <= 54) ? -4'sd2 :
+                      ((-8'sd60 <= $xx_p && $xx_p <=  -8'sd24) && *cyc_cnt <= 54) ? 4'sd2 :
                       (*cyc_cnt[2] == 1'b0) ? 4'sd2 :
-                     
+
                       -4'sd2 :
                    4'sd0 ;
 
@@ -157,13 +157,21 @@
                       4'sd0 :
   
                    #ship == 2 ?
-                       ($yy_p <= -8'sd29) ? 4'sd3 :      
-                       ($yy_p >= 8'sd29)  ? -4'sd3 :     
-                       (*cyc_cnt[1:0] == 0 || *cyc_cnt[1:0] == 1) ? 4'sd3 :  
-                       -4'sd3 :
-              4'sd0;
-   
-
+                     *cyc_cnt == 5   ?  4'sd3 :  
+                     *cyc_cnt == 35  ? -4'sd4 :  
+                     *cyc_cnt == 70  ?  4'sd3 :  
+                     *cyc_cnt == 100 ? -4'sd3 :  
+                     *cyc_cnt == 180 ?  4'sd4 :   
+                     *cyc_cnt == 200 ? -4'sd2 :  
+                     *cyc_cnt == 310 ?  4'sd4 :   
+                     *cyc_cnt == 355 ? -4'sd3 :  
+                     *cyc_cnt == 420 ?  4'sd3 :   
+                     *cyc_cnt == 462 ? -4'sd2 : 
+                     *cyc_cnt == 510 ?  4'sd3 :  
+                     *cyc_cnt == 528 ? -4'sd3 :   
+                     4'sd0 :
+                  4'sd0;
+ 
       
       $fire_dir[1:0] =
                      #ship == 0 ?
@@ -358,13 +366,30 @@
                           (/_top/enemy_ship[2]$xx_p == $xx_p || /_top/enemy_ship[2]$yy_p == $yy_p) && $energy >= 39 ? (1'b1):
                           1'b0 :
                         #ship == 2 ?
-                         (
-                           (! /_top/enemy_ship[0]$destroyed &&
-                           ((/_top/enemy_ship[0]$xx_p - $xx_p)**2 + (/_top/enemy_ship[0]$yy_p - $yy_p)**2 < 8'd36)) ||(! /_top/enemy_ship[1]$destroyed &&
-                           ((/_top/enemy_ship[1]$xx_p - $xx_p)**2 + (/_top/enemy_ship[1]$yy_p - $yy_p)**2 < 8'd36)) ||(! /_top/enemy_ship[2]$destroyed &&
-                           ((/_top/enemy_ship[2]$xx_p - $xx_p)**2 + (/_top/enemy_ship[2]$yy_p - $yy_p)**2 < 8'd36))
-                         ) ? 1'b1 :
-                         1'b0 :
+                         (*cyc_cnt == 30) ? 1'b1 :
+                          //(*cyc_cnt >= 4 && >>1$attempt_shield == 1'b0) ? 1'b1 :
+                          (*cyc_cnt >= 4 && *cyc_cnt <= 10) ? 1'b1 :
+                          (*cyc_cnt >= 20 && *cyc_cnt <= 29) ? 1'b1 :
+                          (*cyc_cnt >= 38 && *cyc_cnt <= 43) ? 1'b1 :
+                          (*cyc_cnt >= 61 && *cyc_cnt <= 64) ? 1'b1 :
+                          (*cyc_cnt >= 66 && *cyc_cnt <= 69) ? 1'b1 :
+                          (*cyc_cnt >= 73 && *cyc_cnt <= 75) ? 1'b1 :
+                          *cyc_cnt >= 80 ?
+                          ((*cyc_cnt % 80) == 0  ?  1'd1 :
+                           (*cyc_cnt % 80) == 2  ?  1'd1 :
+                           (*cyc_cnt % 80) == 3  ?  1'd1 :
+                           (*cyc_cnt % 80) == 4  ?  1'd1 :
+                           (*cyc_cnt % 80) == 7  ?  1'd1 :
+                           (*cyc_cnt % 80) == 8  ?  1'd1 :
+                           (*cyc_cnt % 80) == 32  ?  1'd1 :
+                           (*cyc_cnt % 80) == 33  ?  1'd1 :
+                           (*cyc_cnt % 80) == 47  ?  1'd1 :
+                           (*cyc_cnt % 80) == 48  ?  1'd1 :
+                           (*cyc_cnt % 80) == 64  ?  1'd1 :
+                           (*cyc_cnt % 80) == 65  ?  1'd1 :
+                                                    1'd0
+                          ) :
+                          1'b0 :
                        1'b0 ;
 
       $attempt_cloak =
@@ -499,7 +524,7 @@
    ///m5_team(sitting_duck, Sitting Duck)
    ///m5_team(demo1, Test 1)
    ///m5_team(demo2, Test 2)
-   m5_team(demo3, Demo 3)
+  m5_team(demo3, Demo 3)
    ///m5_team(demo4, Demo 4)
    
    
