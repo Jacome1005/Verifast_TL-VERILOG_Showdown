@@ -243,10 +243,8 @@
                         #ship == 2 ?
                          (
                            (! /_top/enemy_ship[0]$destroyed &&
-                           ((/_top/enemy_ship[0]$xx_p - $xx_p)**2 + (/_top/enemy_ship[0]$yy_p - $yy_p)**2 < 8'd36)) ||
-                           (! /_top/enemy_ship[1]$destroyed &&
-                           ((/_top/enemy_ship[1]$xx_p - $xx_p)**2 + (/_top/enemy_ship[1]$yy_p - $yy_p)**2 < 8'd36)) ||
-                           (! /_top/enemy_ship[2]$destroyed &&
+                           ((/_top/enemy_ship[0]$xx_p - $xx_p)**2 + (/_top/enemy_ship[0]$yy_p - $yy_p)**2 < 8'd36)) ||(! /_top/enemy_ship[1]$destroyed &&
+                           ((/_top/enemy_ship[1]$xx_p - $xx_p)**2 + (/_top/enemy_ship[1]$yy_p - $yy_p)**2 < 8'd36)) ||(! /_top/enemy_ship[2]$destroyed &&
                            ((/_top/enemy_ship[2]$xx_p - $xx_p)**2 + (/_top/enemy_ship[2]$yy_p - $yy_p)**2 < 8'd36))
                          ) ? 1'b1 :
                          1'b0 :
@@ -262,14 +260,16 @@
                           1'b0 :
                        #ship == 2 ?
                        (
-                        ((! /_top/enemy_ship[0]$destroyed &&
-                        ((/_top/enemy_ship[0]$xx_p - $xx_p)**2 + (/_top/enemy_ship[0]$yy_p - $yy_p)**2 < 8'd100)) ? 1 : 0) +
-                        ((! /_top/enemy_ship[1]$destroyed &&
-                        ((/_top/enemy_ship[1]$xx_p - $xx_p)**2 + (/_top/enemy_ship[1]$yy_p - $yy_p)**2 < 8'd100)) ? 1 : 0) +
-                        ((! /_top/enemy_ship[2]$destroyed &&
-                        ((/_top/enemy_ship[2]$xx_p - $xx_p)**2 + (/_top/enemy_ship[2]$yy_p - $yy_p)**2 < 8'd100)) ? 1 : 0)
-                     ) >= 2 ? 1'b1 :
-                     1'b0 :
+                        //(*cyc_cnt >= 5) &&
+                        (
+                           ((! /_top/enemy_ship[0]$destroyed &&
+                           ((/_top/enemy_ship[0]$xx_p - $xx_p)**2 + (/_top/enemy_ship[0]$yy_p - $yy_p)**2 < 8'd100)) ? 1 : 0) +
+                           ((! /_top/enemy_ship[1]$destroyed &&
+                           ((/_top/enemy_ship[1]$xx_p - $xx_p)**2 + (/_top/enemy_ship[1]$yy_p - $yy_p)**2 < 8'd100)) ? 1 : 0) +
+                           ((! /_top/enemy_ship[2]$destroyed &&
+                           ((/_top/enemy_ship[2]$xx_p - $xx_p)**2 + (/_top/enemy_ship[2]$yy_p - $yy_p)**2 < 8'd100)) ? 1 : 0)
+                        ) >= 2
+                       ) ? 1'b1 : 1'b0 :
                   1'b0 ;
 
       // defaults for everything else
